@@ -19,8 +19,8 @@ y_max = 10000
 
 
 fig = plt.figure()
-ax = plt.axes(xlim=(0, 10000), ylim=(0, 10000))
-patch = plt.Circle((2, -2), 200, fc='y')
+ax = plt.axes(xlim=(0, 2000), ylim=(0, 2000))
+patch = plt.Circle((2, -2), 100, fc='y')
 
 def init():
     patch.center = (2, 2)
@@ -37,7 +37,7 @@ def animate(i):
     return patch,
     
 
-ani = animation.FuncAnimation(fig, animate,init_func= init, frames = 360, blit = True, interval = 20, repeat = True)
+ani = animation.FuncAnimation(fig, animate,init_func= init, frames = 100, blit = True, interval = 20, repeat = True)
 
 plt.show()
 
