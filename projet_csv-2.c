@@ -28,7 +28,9 @@ void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_
 
 int main(int argc, char * argv[]) {
 	double demi_petit_axe = calc_demi_petit_axe(150.5, 0.101);
+	double demi_petit_axe_mars = calc_demi_petit_axe(227.84, 0.103 );
 	fichierCSV("planete_test.csv", 5000, 5000, 150.5, demi_petit_axe);
+	fichierCSV("planete_mars.csv", 5000, 5000, 150.5, demi_petit_axe_mars);
 	return 0; 
 
 }
