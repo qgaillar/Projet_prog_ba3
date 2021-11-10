@@ -27,10 +27,22 @@ void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_
 }
 
 int main(int argc, char * argv[]) {
-	double demi_petit_axe = calc_demi_petit_axe(451, 0.101);
-	double demi_petit_axe_mars = calc_demi_petit_axe(227.84, 0.103 );
-	fichierCSV("planete_test.csv", 2000, 2000, 451.5, demi_petit_axe);
-	fichierCSV("planete_mars.csv", 2000, 2000, 227.84, demi_petit_axe_mars);
+	double demi_petit_axe_Mercure = calc_demi_petit_axe(451.5, 0.);
+	double demi_petit_axe_Venus = calc_demi_petit_axe(451.5, 0.101);
+	double demi_petit_axe_Terre = calc_demi_petit_axe(451.5, 0.101);
+	double demi_petit_axe_Mars = calc_demi_petit_axe(227.84, 0.103 );
+	double demi_petit_axe_Jupiter = calc_demi_petit_axe(451.5, 0.101);
+	double demi_petit_axe_Saturne = calc_demi_petit_axe(451.5, 0.101);
+	double demi_petit_axe_Uranus = calc_demi_petit_axe(451.5, 0.101);
+	double demi_petit_axe_Neptune = calc_demi_petit_axe(451.5, 0.101);
+	fichierCSV("planete_Mercure.csv", 5000, 5000, 451.5, demi_petit_axe_Mercure);
+	fichierCSV("planete_Venus.csv", 5000, 5000, 451.5, demi_petit_axe_Venus);
+	fichierCSV("planete_Terre.csv", 5000, 5000, 451.5, demi_petit_axe_Terre);
+	fichierCSV("planete_Mars.csv", 5000, 5000, 227.84, demi_petit_axe_Mars);
+	fichierCSV("planete_Jupiter.csv", 5000, 5000, 451.5, demi_petit_axe_Jupiter);
+	fichierCSV("planete_Saturne.csv", 5000, 5000, 451.5, demi_petit_axe_Saturne);
+	fichierCSV("planete_Uranus.csv", 5000, 5000, 451.5, demi_petit_axe_Uranus);
+	fichierCSV("planete_Neptune.csv", 5000, 5000, 451.5, demi_petit_axe_Neptune);
 	return 0; 
 
 }
