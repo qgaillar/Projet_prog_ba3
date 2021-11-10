@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <time.h>
 #include <math.h>
+#include <struct_planete.c>
+
 
 
 double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
