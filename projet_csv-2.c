@@ -4,7 +4,15 @@
 #include <stdbool.h>
 #include <time.h>
 #include <math.h>
-#include <struct_planete.c>
+
+
+struct Planete {
+	char* nom;
+	double demi_grand_axe;
+	double excentricite;
+	double demi_petit_axe;
+
+};
 
 
 
@@ -16,6 +24,7 @@ double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
     for (int i = 0; i < 101; i++) {
+		
 			
 		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/50);
 		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/50);
@@ -29,22 +38,45 @@ void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_
 }
 
 int main(int argc, char * argv[]) {
-	double demi_petit_axe_Mercure = calc_demi_petit_axe(56.625, 0.2589);
-	double demi_petit_axe_Venus = calc_demi_petit_axe(128.115, 0.0051);
-	double demi_petit_axe_Terre = calc_demi_petit_axe(150.5, 0.101);
-	double demi_petit_axe_Mars = calc_demi_petit_axe(227.84, 0.103 );
-	double demi_petit_axe_Jupiter = calc_demi_petit_axe(778.345, 0.0507);
-	double demi_petit_axe_Saturne = calc_demi_petit_axe(1427.18, 0.0593);
-	double demi_petit_axe_Uranus = calc_demi_petit_axe(2870.83, 0.0482);
-	double demi_petit_axe_Neptune = calc_demi_petit_axe(4496.975, 0.0098);
-	fichierCSV("planete_Mercure.csv", 5000, 5000, 56.625, demi_petit_axe_Mercure);
-	fichierCSV("planete_Venus.csv", 5000, 5000, 128.115, demi_petit_axe_Venus);
-	fichierCSV("planete_Terre.csv", 5000, 5000, 150.5, demi_petit_axe_Terre);
-	fichierCSV("planete_Mars.csv", 5000, 5000, 227.84, demi_petit_axe_Mars);
-	fichierCSV("planete_Jupiter.csv", 5000, 5000, 778.345, demi_petit_axe_Jupiter);
-	fichierCSV("planete_Saturne.csv", 5000, 5000, 1427.18, demi_petit_axe_Saturne);
-	fichierCSV("planete_Uranus.csv", 5000, 5000, 2870.83, demi_petit_axe_Uranus);
-	fichierCSV("planete_Neptune.csv", 5000, 5000, 4496.975, demi_petit_axe_Neptune);
+	
+	struct Planete Mercure = {"Mercure", 56.625, 0.2589, 0};
+	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
+	
+	struct Planete Venus = {"Venus", 128.115, 0.0051, 0};
+	Venus.demi_petit_axe = calc_demi_petit_axe(Venus.demi_grand_axe, Venus.excentricite);
+	
+	struct Planete Terre = {"Terre", 150.5, 0.101, 0};
+	Terre.demi_petit_axe = calc_demi_petit_axe(Terre.demi_grand_axe, Terre.excentricite);
+	
+	struct Planete Mars = {"Mars", 227.84, 0.103, 0};
+	Mars.demi_petit_axe = calc_demi_petit_axe(Mars.demi_grand_axe, Mars.excentricite);
+	
+	struct Planete Jupiter = {"Jupiter", 778.345, 0.0507, 0};
+	Jupiter.demi_petit_axe = calc_demi_petit_axe(Jupiter.demi_grand_axe, Jupiter.excentricite);
+	
+	struct Planete Saturne = {"Saturne", 1427.18, 0.0593, 0};
+	Saturne.demi_petit_axe = calc_demi_petit_axe(Saturne.demi_grand_axe, Saturne.excentricite);
+	
+	struct Planete Uranus = {"Uranus", 2870.83, 0.0482, 0};
+	Uranus.demi_petit_axe = calc_demi_petit_axe(Uranus.demi_grand_axe, Uranus.excentricite);
+	
+	struct Planete Neptune = {"Neptune", 4496.975, 0.0098, 0};
+	Neptune.demi_petit_axe = calc_demi_petit_axe(Neptune.demi_grand_axe, Neptune.excentricite);
+	
+	int centre_x = 5000;
+	int centre_y = 5000;
+
+	fichierCSV("planete_Mercure.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe);
+	fichierCSV("planete_Venus.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe);
+	fichierCSV("planete_Terre.csv", centre_x, centre_y, Terre.demi_grand_axe, Terre.demi_petit_axe);
+	fichierCSV("planete_Mars.csv", centre_x, centre_y, Mars.demi_grand_axe, Mars.demi_petit_axe);
+	fichierCSV("planete_Jupiter.csv", centre_x, centre_y, Jupiter.demi_grand_axe, Jupiter.demi_petit_axe);
+	fichierCSV("planete_Saturne.csv", centre_x, centre_y, Saturne.demi_grand_axe, Saturne.demi_petit_axe);
+	fichierCSV("planete_Uranus.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe);
+	fichierCSV("planete_Neptune.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe);
+	
+
+	
 	return 0; 
 
 }
