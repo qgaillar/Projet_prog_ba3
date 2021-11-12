@@ -30,11 +30,11 @@ double calc_perimetre (double demi_grand_axe, double demi_petit_axe) {
 }
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
-    for (int i = 0; i < 1001; i++) {
+    for (int i = 0; i < 501; i++) {
 		
 			
-		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/500);
-		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/500);
+		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/250);
+		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/250);
                      
         fprintf(file, "%0.6f,%0.6f", coor_x, coor_y );    
         fprintf(file, "\n");
@@ -82,8 +82,6 @@ int main(int argc, char * argv[]) {
 	fichierCSV("planete_Uranus.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe);
 	fichierCSV("planete_Neptune.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe);
 	
-	double a = calc_perimetre(3, 1);
-	printf("%f\n", a);
 
 	return 0; 
 
