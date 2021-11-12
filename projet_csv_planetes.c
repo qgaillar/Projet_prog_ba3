@@ -23,7 +23,7 @@ double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
 
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
-    for (int i = 0; i < 101; i++) {
+    for (int i = 0; i < 1001; i++) {
 		
 			
 		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/50);
