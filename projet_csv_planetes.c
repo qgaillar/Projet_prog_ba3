@@ -30,11 +30,11 @@ double calc_perimetre (double demi_grand_axe, double demi_petit_axe) {
 }
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
-    for (int i = 0; i < 501; i++) {
+    for (int i = 0; i < 401; i++) {
 		
 			
-		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/250);
-		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/250);
+		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/200);
+		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/200);
                      
         fprintf(file, "%0.6f,%0.6f", coor_x, coor_y );    
         fprintf(file, "\n");
