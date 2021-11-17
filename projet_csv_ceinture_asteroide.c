@@ -36,13 +36,28 @@ int main(int argc, char * argv[]) {
     int centre_y = 5000;
     
     
-    double demi_grand_axe_random = rand() / randomDomaine * 1;
-    printf("%f\n", demi_grand_axe_random);
     
-    double excentricite_random = rand() / randomDomaine * 0.5;
-    printf("%f\n", excentricite_random);
+    
+    for (int i = 0; i <10; i++) {
+		double demi_grand_axe_random = rand() / randomDomaine * 1;
+		printf("%f\n", demi_grand_axe_random);
+    
+		double excentricite_random = rand() / randomDomaine * 0.5;
+		printf("%f\n", excentricite_random);
+		
+		char buffer[2];
+		char * a = itoa(i, buffer, 10) ;
+		
+		char nom_fichier[100] = "planete_Asteroide";
+		strcat(nom_fichier, a);
+		
+		char * CSV = ".csv";
+		strcat(nom_fichier, CSV);
+		printf("%s\n", nom_fichier);
 
-    fichierCSV("planete_Asteroide.csv" , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
+		fichierCSV(nom_fichier , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
+		
+	}
 
     return 0;
 
