@@ -42,7 +42,7 @@ int main(int argc, char * argv[]) {
     double excentricite_random = rand() / randomDomaine * 0.5;
     printf("%f\n", excentricite_random);
 
-    fichierCSV("asteroide.csv" , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
+    fichierCSV("planete_Asteroide.csv" , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
 
     return 0;
 
