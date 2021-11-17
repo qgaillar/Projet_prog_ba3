@@ -11,6 +11,7 @@ struct Planete {
 	double demi_grand_axe;
 	double excentricite;
 	double demi_petit_axe;
+	double rayon;
 
 };
 
@@ -28,6 +29,14 @@ double calc_perimetre (double demi_grand_axe, double demi_petit_axe) {
 	printf("%f\n", perimetre);
 	return perimetre;
 }
+
+double calc_nb_iterations_selon_planete (double perimetre, double taille_planete) {
+	int i = perimetre / taille_planete ;
+	printf("%d\n", i);
+	return i;
+}
+
+
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
     for (int i = 0; i < 401; i++) {
@@ -82,7 +91,8 @@ int main(int argc, char * argv[]) {
 	fichierCSV("planete_Uranus.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe);
 	fichierCSV("planete_Neptune.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe);
 	
+	//int a = calc_nb_iterations_selon_planete(calc_perimetre(150.5, calc_demi_petit_axe(150.5, 0.101)), 3);
+	
 
 	return 0; 
-
 }

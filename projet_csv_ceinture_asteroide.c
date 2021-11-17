@@ -13,11 +13,11 @@ double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
 
 void fichierCSV ( char* filename, int centre_x, int centre_y, double demi_grand_axe, double demi_petit_axe) {
 	FILE * file = fopen(filename, "w+");
-    for (int i = 0; i < 101; i++) {
+    for (int i = 0; i < 401; i++) {
 		
 		int ua = 150.5;	
-		double coor_x = centre_x + 2.5*ua*demi_grand_axe*cos(M_PI*i/50);
-		double coor_y = centre_y + 2.5*ua*demi_petit_axe *sin(M_PI*i/50);
+		double coor_x = centre_x + 2.5*ua*demi_grand_axe*cos(M_PI*i/200);
+		double coor_y = centre_y + 2.5*ua*demi_petit_axe *sin(M_PI*i/200);
                      
         fprintf(file, "%0.6f,%0.6f", coor_x, coor_y );    
         fprintf(file, "\n");
