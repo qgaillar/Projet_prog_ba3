@@ -55,7 +55,7 @@ int main(int argc, char * argv[]) {
 		strcat(nom_fichier, CSV);
 		printf("%s\n", nom_fichier);
 
-		fichierCSV("planete_Asteroide.csv" , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
+		fichierCSV(nom_fichier , centre_x, centre_y, demi_grand_axe_random, calc_demi_petit_axe(demi_grand_axe_random, excentricite_random));
 		
 	}
 
