@@ -27,8 +27,6 @@ class Planète:
         self.coord_x = coord_x
         self.coord_y = coord_y
     
-
-
     
 Mercure = Planète('red', frame_Mercure, 2.439, x_Mercure, y_Mercure)
 Venus = Planète('red', frame_Venus, 6.052, x_Venus, y_Venus)
@@ -58,7 +56,7 @@ Neptune_plt, = plt.plot([], [], 'ko', ms = Neptune.size, mfc = Neptune.color)
 def animate_Mercure(i):
     Mercure_plt.set_data(Mercure.coord_x[i], Mercure.coord_y[i])
     return Mercure_plt  
-    
+
 def animate_Venus(i):
     Venus_plt.set_data(Venus.coord_x[i], Venus.coord_y[i])
     return Venus_plt
@@ -89,22 +87,27 @@ def animate_Neptune(i):
     return Neptune_plt
 
 
+#interval = ms between frames
 
-anim_Mercure = animation.FuncAnimation(fig, animate_Mercure, frames = Mercure.nb_frame ,interval = 1, blit = False, repeat = True)
+interval_time = 1
 
-anime_Venus = animation.FuncAnimation(fig, animate_Venus, frames = Venus.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Mercure = animation.FuncAnimation(fig, animate_Mercure, frames = Mercure.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Terre = animation.FuncAnimation(fig, animate_Terre, frames = Terre.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Venus = animation.FuncAnimation(fig, animate_Venus, frames = Venus.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Mars = animation.FuncAnimation(fig, animate_Mars, frames = Mars.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Terre = animation.FuncAnimation(fig, animate_Terre, frames = Terre.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Jupiter = animation.FuncAnimation(fig, animate_Jupiter, frames = Jupiter.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Mars = animation.FuncAnimation(fig, animate_Mars, frames = Mars.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Saturne = animation.FuncAnimation(fig, animate_Saturne, frames = Saturne.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Jupiter = animation.FuncAnimation(fig, animate_Jupiter, frames = Jupiter.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Uranus = animation.FuncAnimation(fig, animate_Uranus, frames = Uranus.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Saturne = animation.FuncAnimation(fig, animate_Saturne, frames = Saturne.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
-anime_Neptune = animation.FuncAnimation(fig, animate_Neptune, frames = Neptune.nb_frame ,interval = 1, blit = False, repeat = True)
+anim_Uranus = animation.FuncAnimation(fig, animate_Uranus, frames = Uranus.nb_frame ,interval = interval_time, blit = False, repeat = True)
+
+anim_Neptune = animation.FuncAnimation(fig, animate_Neptune, frames = Neptune.nb_frame ,interval = interval_time, blit = False, repeat = True)
+
+
 
 
 plt.grid(alpha = 0.2)
