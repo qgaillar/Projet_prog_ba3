@@ -13,6 +13,7 @@ void fichierCSV ( char* filename, double coor_x, double coor_y) {
 		srand(time(NULL));
 		double randomDomaine = RAND_MAX + 1.0;
 		
+		
 		double v_x = rand() / randomDomaine * 100;
 		double v_y = rand() / randomDomaine * 100;
 		printf("%f\n", v_x);
