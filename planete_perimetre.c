@@ -81,16 +81,16 @@ int main(int argc, char * argv[]) {
 	Saturne.demi_petit_axe = calc_demi_petit_axe(Saturne.demi_grand_axe, Saturne.excentricite);
 	Saturne.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Saturne.demi_grand_axe, Saturne.demi_petit_axe), Saturne.rayon);
 	
-	struct Planete Uranus = {"Uranus", 2870.83, 0.0482, 0, 0, 15.6};
+	struct Planete Uranus = {"Uranus", 1870.83, 0.0482, 0, 0, 15.6};
 	Uranus.demi_petit_axe = calc_demi_petit_axe(Uranus.demi_grand_axe, Uranus.excentricite);
 	Uranus.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Uranus.demi_grand_axe, Uranus.demi_petit_axe), Uranus.rayon);
 	
-	struct Planete Neptune = {"Neptune", 4496.975, 0.0098, 0, 0, 14.8};
+	struct Planete Neptune = {"Neptune", 2496.975, 0.0098, 0, 0, 14.8};
 	Neptune.demi_petit_axe = calc_demi_petit_axe(Neptune.demi_grand_axe, Neptune.excentricite);
 	Neptune.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Neptune.demi_grand_axe, Neptune.demi_petit_axe), Neptune.rayon);
 	
-	int centre_x = 10000;
-	int centre_y = 10000;
+	int centre_x = 3000;
+	int centre_y = 3000;
 
 	fichierCSV("planete_Mercure1.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe, Mercure.iterations);
 	fichierCSV("planete_Venus1.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe, Venus.iterations);
