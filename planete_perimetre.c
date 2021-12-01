@@ -14,6 +14,7 @@ struct Planete {
 	double demi_petit_axe;
 	double v_planete;
 	double revolution;
+	double iterations_en_fct_de_v;
 
 };
 
@@ -41,10 +42,10 @@ double v_planete (double perimetre, double revolution) {
 
 // ne pas oublier de rajouter le int iterations si ca marche pas
 
-void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, double revolution) {
+void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, double revolution, int iterations_en_fct_de_v) {
 	FILE * file = fopen(filename, "w+");
 	
-	//int delta_t = 20; //jours
+	
 	//iterations = revolution / delta_t
 	int iterations = 5000;
 	/*
@@ -66,9 +67,12 @@ void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_
 
 int main(int argc, char * argv[]) {
 	
+	int delta_t = 20; //jours
+	
 	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 87.96};
 	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
 	Mercure.v_planete = v_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.revolution);
+	Mercure.iterations_en_fct_de_v = int v_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.revolution)/delta_t;
 	
 	struct Planete Venus = {"Venus", 105.615*pow(10,3), 0.0051, 0, 0, 224.70};
 	Venus.demi_petit_axe = calc_demi_petit_axe(Venus.demi_grand_axe, Venus.excentricite);
