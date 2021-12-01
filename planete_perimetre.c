@@ -44,7 +44,7 @@ double v_planete (double perimetre, double revolution) {
 void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, double revolution) {
 	FILE * file = fopen(filename, "w+");
 	
-	int delta_t = 20; //jours
+	//int delta_t = 20; //jours
 	//iterations = revolution / delta_t
 	int iterations = 5000;
 	/*
@@ -52,12 +52,14 @@ void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_
 	else ;
 	*/
     for (int i = 0; i < iterations; i++) {
-		double coor_x = (centre_x + demi_grand_axe*cos(M_PI*i/(iterations/2)))*v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t;
-		double coor_y = (centre_y + demi_petit_axe *sin(M_PI*i/(iterations/2)))*v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t;	
+		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/(iterations/2));
+		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/(iterations/2));	
 		        
         fprintf(file, "%0.6f,%0.6f", coor_x, coor_y );    
         fprintf(file, "\n");
     }
+    // la speed de nos planetes *v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t 
+    // et )*v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t
 
     fclose(file);
 }
