@@ -23,7 +23,7 @@ Jupiter, x_Jupiter, y_Jupiter, frame_Jupiter = planètes(nom_planètes[4])
 Saturne, x_Saturne, y_Saturne, frame_Saturne = planètes(nom_planètes[5])
 Uranus, x_Urnaus, y_Uranus, frame_Uranus = planètes(nom_planètes[6])
 Neptune, x_Neptune, y_Neptune, frame_Neptune = planètes(nom_planètes[7])
-Asteroide, x_Asteroide, y_Asteroide, frame_Asteroide = planètes(nom_planètes[8])
+#Asteroide, x_Asteroide, y_Asteroide, frame_Asteroide = planètes(nom_planètes[8])
 
 
 

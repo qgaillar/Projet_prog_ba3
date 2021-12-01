@@ -2,11 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from planètes import *  #fonction qui attribue à chaque planètes ses coord x et y grâce ouverture fichier csv
+#from attraction_gravitationnelle import *
 
 
-x_min, x_max = 0, 10000
-y_min, y_max = 0, 10000
 
+#---initialisation variables----#
+
+x_min, x_max = 0, 10e6
+y_min, y_max = 0, 10e6
+G = 6.7e-11                #[m^3/(kg^-1*s^-2)]
+x_Asteroid_init = 500 * 10e2
+y_Asteroid_init = 500 * 10e2
+
+
+#---initialisation de notre figure----#
 
 fig, ax = plt.subplots(1, 1) #définiton de notre figure composé de seulement une ligne et une colonne
 ax = plt.gca() #prendre en compte les axes actuels
@@ -18,29 +27,45 @@ plt.xlim([x_min, x_max]) #definie la scale de notre plot
 plt.ylim([y_min, y_max])
 
 
+#----définition des classes----#
+
 
 class Planète:
-    def __init__(self, color, nb_frame, size, coord_x, coord_y):
+    def __init__(self, color, nb_frame, size, coord_x, coord_y, mass):
         self.color = color
         self.nb_frame = nb_frame
         self.size = size
         self.coord_x = coord_x
         self.coord_y = coord_y
-    
-    
-Mercure = Planète('red', frame_Mercure, 2.439, x_Mercure, y_Mercure)
-Venus = Planète('red', frame_Venus, 6.052, x_Venus, y_Venus)
-Terre = Planète('red', frame_Terre, 6.378, x_Terre, y_Terre)
-Mars = Planète('red', frame_Mars, 3.397, x_Mars, y_Mars)
-Jupiter = Planète('red', frame_Jupiter, 17.500, x_Jupiter, y_Jupiter)
-Saturne = Planète('red', frame_Saturne, 16.300, x_Saturne, y_Saturne)
-Uranus = Planète('red', frame_Uranus, 15.6, x_Urnaus, y_Uranus)
-Neptune = Planète('red', frame_Neptune, 14.8, x_Neptune, y_Neptune)
+        self.mass = mass
+
+class Asteroid:
+    def __init__(self, color, size, mass):
+        self.color = color
+        self.size = size
+        self.mass = mass
+        #self.coord_x_init = coord_x_init
+        #self.coord_y_init = coord_y_init
+
+
+#---- definitions des astres-----#
+
+
+Mercure = Planète('red', frame_Mercure, 0.2439*5, x_Mercure, y_Mercure, 33e22)
+Venus = Planète('red', frame_Venus, 0.6052*5, x_Venus, y_Venus, 490e22)
+Terre = Planète('red', frame_Terre, 0.6378*5, x_Terre, y_Terre, 600e22)
+Mars = Planète('red', frame_Mars, 0.3397*5, x_Mars, y_Mars, 64e22)
+Jupiter = Planète('red', frame_Jupiter, 7.1500, x_Jupiter, y_Jupiter, 190000e22)
+Saturne = Planète('red', frame_Saturne, 6.0300, x_Saturne, y_Saturne, 5700e22)
+Uranus = Planète('red', frame_Uranus, 2.56, x_Urnaus, y_Uranus, 8700e22)
+Neptune = Planète('red', frame_Neptune, 2.48, x_Neptune, y_Neptune, 10000e22)
+Asteroid_crash_test = Asteroid('blue', size= 3, mass= 10e20)
 
 
 
+#---definition des plots des astres----#
 
-Mercure_plt, = plt.plot([], [], 'ko', ms = Mercure.size, mfc = Mercure.color)
+Mercure_plt, = plt.plot([], [], 'ko', ms = Mercure.size, mfc = Mercure.color)  #ko = pour former un cercle avec contour noir
 Venus_plt, = plt.plot([], [], 'ko', ms = Venus.size, mfc = Venus.color)
 Terre_plt, = plt.plot([], [], 'ko', ms = Terre.size, mfc = Terre.color)
 Mars_plt, = plt.plot([], [], 'ko', ms = Mars.size, mfc = Mars.color)
@@ -48,48 +73,132 @@ Jupiter_plt, = plt.plot([], [], 'ko', ms = Jupiter.size, mfc = Jupiter.color)
 Saturne_plt, = plt.plot([], [], 'ko', ms = Saturne.size, mfc = Saturne.color)
 Uranus_plt, = plt.plot([], [], 'ko', ms = Uranus.size, mfc = Uranus.color)
 Neptune_plt, = plt.plot([], [], 'ko', ms = Neptune.size, mfc = Neptune.color)
+Asteroid_crash_test_plt, = plt.plot([x_Asteroid_init], [y_Asteroid_init], 'ko', ms = Asteroid_crash_test.size, mfc = Asteroid_crash_test.color)
+Soleil_plt, = plt.plot([4.9985 * 10e5], [5 * 10e5], 'yo', ms = 3)
 
 
-#Asteroide, = plt.plot([], [], 'ko', ms = 3, mfc = 'blue')
+
+"""
+
+def Fg(mass_planète, x_Asteroid_crash_test, y_Asteroid_crash_test, x_planète, y_planète):
+    delta_x = x_Asteroid_crash_test - x_planète
+    delta_y = y_Asteroid_crash_test - y_planète
+    dist = np.sqrt(delta_x**2 + delta_y**2)
+    Force_gravitationnelle = (G * mass_planète * Asteroid_crash_test.mass) / (dist * 10e3)**2  #10e3 = conversion en mètres
+    return Force_gravitationnelle
 
 
-def animate_Mercure(i):
-    Mercure_plt.set_data(Mercure.coord_x[i], Mercure.coord_y[i])
+def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
+
+    cos_Mercure = (abs(x_Asteroid_crash_test - Mercure.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Mercure.coord_x[i])**2 + (y_Asteroid_crash_test - Mercure.coord_y[i])**2))
+    #cos_Venus = (abs(x_Asteroid_crash_test - Venus.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Venus.coord_x[i])**2 + (y_Asteroid_crash_test - Venus.coord_y[i])**2))
+    #cos_Terre = (abs(x_Asteroid_crash_test - Terre.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Terre.coord_x[i])**2 + (y_Asteroid_crash_test - Terre.coord_y[i])**2))
+    #cos_Mars = (abs(x_Asteroid_crash_test - Mars.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Mars.coord_x[i])**2 + (y_Asteroid_crash_test - Mars.coord_y[i])**2))
+    #cos_Jupiter = (abs(x_Asteroid_crash_test - Jupiter.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Jupiter.coord_x[i])**2 + (y_Asteroid_crash_test - Jupiter.coord_y[i])**2))
+    #cos_Saturne = (abs(x_Asteroid_crash_test - Saturne.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Saturne.coord_x[i])**2 + (y_Asteroid_crash_test - Saturne.coord_y[i])**2))
+    #cos_Uranus = (abs(x_Asteroid_crash_test - Uranus.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Uranus.coord_x[i])**2 + (y_Asteroid_crash_test - Uranus.coord_y[i])**2))
+    #cos_Neptune = (abs(x_Asteroid_crash_test - Neptune.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Neptune.coord_x[i])**2 + (y_Asteroid_crash_test - Neptune.coord_y[i])**2))
+
+    Fg_tot_x = (
+        Fg(Mercure.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Mercure.coord_x[i], Mercure.coord_y[i]) * cos_Mercure #+ #pb avec Fg qui génère 1705 valeurs d'un coup 
+        #Fg(Venus.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Venus.coord_x[i], Venus.coord_y[i]) * cos_Venus +
+        #Fg(Terre.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Terre.coord_x[i], Terre.coord_y[i]) * cos_Terre +
+        #Fg(Mars.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Mars.coord_x[i], Mars.coord_y[i]) * cos_Mars +
+        #Fg(Jupiter.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Jupiter.coord_x[i], Jupiter.coord_y[i]) * cos_Jupiter +
+        #Fg(Saturne.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Saturne.coord_x[i], Saturne.coord_y[i]) * cos_Saturne +
+        #Fg(Uranus.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Uranus.coord_x[i], Uranus.coord_y[i]) * cos_Uranus +
+        #Fg(Neptune.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Neptune.coord_x[i], Neptune.coord_y[i]) * cos_Neptune
+    )
+    return Fg_tot_x
+
+def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
+
+    sin_Mercure = (abs(y_Asteroid_crash_test - Mercure.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Mercure.coord_x[i])**2 + (y_Asteroid_crash_test - Mercure.coord_y[i])**2))
+    #sin_Venus = (abs(y_Asteroid_crash_test - Venus.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Venus.coord_x[i])**2 + (y_Asteroid_crash_test - Venus.coord_y[i])**2))
+    #sin_Terre = (abs(y_Asteroid_crash_test - Terre.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Terre.coord_x[i])**2 + (y_Asteroid_crash_test - Terre.coord_y[i])**2))
+    #sin_Mars = (abs(y_Asteroid_crash_test - Mars.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Mars.coord_x[i])**2 + (y_Asteroid_crash_test - Mars.coord_y[i])**2))
+    #sin_Jupiter = (abs(y_Asteroid_crash_test - Jupiter.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Jupiter.coord_x[i])**2 + (y_Asteroid_crash_test - Jupiter.coord_y[i])**2))
+    #sin_Saturne = (abs(y_Asteroid_crash_test - Saturne.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Saturne.coord_x[i])**2 + (y_Asteroid_crash_test - Saturne.coord_y[i])**2))
+    #sin_Uranus = (abs(y_Asteroid_crash_test - Uranus.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Uranus.coord_x[i])**2 + (y_Asteroid_crash_test - Uranus.coord_y[i])**2))
+    #sin_Neptune = (abs(y_Asteroid_crash_test - Neptune.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Neptune.coord_x[i])**2 + (y_Asteroid_crash_test - Neptune.coord_y[i])**2))
+
+    Fg_tot_y = (
+        Fg(Mercure.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Mercure.coord_x[i], Mercure.coord_y[i]) * sin_Mercure #+
+        #Fg(Venus.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Venus.coord_x[i], Venus.coord_y[i]) * sin_Venus +
+        #Fg(Terre.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Terre.coord_x[i], Terre.coord_y[i]) * sin_Terre +
+        #Fg(Mars.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Mars.coord_x[i], Mars.coord_y[i]) * sin_Mars +
+        #Fg(Jupiter.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Jupiter.coord_x[i], Jupiter.coord_y[i]) * sin_Jupiter +
+        #Fg(Saturne.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Saturne.coord_x[i], Saturne.coord_y[i]) * sin_Saturne +
+        #Fg(Uranus.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Uranus.coord_x[i], Uranus.coord_y[i]) * sin_Uranus +
+        #Fg(Neptune.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Neptune.coord_x[i], Neptune.coord_y[i]) * sin_Neptune
+    )
+    return Fg_tot_y
+
+coord_x_Asteroid = [x_Asteroid_init]
+coord_y_Asteroid = [y_Asteroid_init]
+
+def coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, j):
+
+    for i in range(0, j):
+
+        x_Asteroid_crash_test = coord_x_Asteroid[i] + (Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (i**2/2)
+        y_Asteroid_crash_test = coord_y_Asteroid[i] + (Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (i**2/2)
+
+        coord_x_Asteroid.append(x_Asteroid_crash_test)
+        coord_y_Asteroid.append(y_Asteroid_crash_test)
+
+    return coord_x_Asteroid, coord_y_Asteroid
+
+
+print(coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 1000))
+
+
+"""
+
+
+
+#----fonctions de mise en mouvement des astres-----#
+
+def animate_Mercure(a):
+    Mercure_plt.set_data(Mercure.coord_x[a], Mercure.coord_y[a])
     return Mercure_plt  
 
-def animate_Venus(i):
-    Venus_plt.set_data(Venus.coord_x[i], Venus.coord_y[i])
+def animate_Venus(b):
+    Venus_plt.set_data(Venus.coord_x[b], Venus.coord_y[b])
     return Venus_plt
 
-def animate_Terre(i):
-    Terre_plt.set_data(Terre.coord_x[i], Terre.coord_y[i])
+def animate_Terre(c):
+    Terre_plt.set_data(Terre.coord_x[c], Terre.coord_y[c])
     return Terre_plt
 
-def animate_Mars(i):
-    Mars_plt.set_data(Mars.coord_x[i], Mars.coord_y[i])
+def animate_Mars(d):
+    Mars_plt.set_data(Mars.coord_x[d], Mars.coord_y[d])
     return Mars_plt
 
-def animate_Jupiter(i):
-    Jupiter_plt.set_data(Jupiter.coord_x[i], Jupiter.coord_y[i])
+def animate_Jupiter(e):
+    Jupiter_plt.set_data(Jupiter.coord_x[e], Jupiter.coord_y[e])
     return Jupiter_plt
 
-def animate_Saturne(i):
-    Saturne_plt.set_data(Saturne.coord_x[i], Saturne.coord_y[i])
+def animate_Saturne(f):
+    Saturne_plt.set_data(Saturne.coord_x[f], Saturne.coord_y[f])
     return Saturne_plt
 
-def animate_Uranus(i):
-    Uranus_plt.set_data(Uranus.coord_x[i], Uranus.coord_y[i])
+def animate_Uranus(g):
+    Uranus_plt.set_data(Uranus.coord_x[g], Uranus.coord_y[g])
     return Uranus_plt
 
 
-def animate_Neptune(i):
-    Neptune_plt.set_data(Neptune.coord_x[i], Neptune.coord_y[i])
-    return Neptune_plt
+def animate_Neptune(h):
+    Neptune_plt.set_data(Neptune.coord_x[h], Neptune.coord_y[h])
+    print(Neptune.coord_x[h])
+    return Neptune_plt   
 
 
-#interval = ms between frames
 
-interval_time = 1
+#---mise en mouvement des astres----#
+
+
+interval_time = 12 #interval = ms between frames
 
 anim_Mercure = animation.FuncAnimation(fig, animate_Mercure, frames = Mercure.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
