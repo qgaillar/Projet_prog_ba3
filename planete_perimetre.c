@@ -12,8 +12,8 @@ struct Planete {
 	double demi_grand_axe;
 	double excentricite;
 	double demi_petit_axe;
-	int iterations;
-	double rayon;
+	double v_planete;
+	double revolution;
 
 };
 
@@ -31,22 +31,29 @@ double calc_perimetre (double demi_grand_axe, double demi_petit_axe) {
 	return perimetre;
 }
 
-double calc_nb_iterations_selon_planete (double perimetre, double taille_planete) {
-	int i = perimetre / taille_planete ;
+double v_planete (double perimetre, double revolution) {
+	double vitesse_planete = perimetre / revolution ;
 	
-	return i;
+	return vitesse_planete;
 }
 
+//v_planete (calc_perimetre(double demi_grand_axe, double demi_petit_axe), revolution)
 
-void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, int iterations) {
+// ne pas oublier de rajouter le int iterations si ca marche pas
+
+void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, double revolution) {
 	FILE * file = fopen(filename, "w+");
 	
+	int delta_t = 20; //jours
+	//iterations = revolution / delta_t
+	int iterations = 5000;
+	/*
 	if (iterations % 2 == 0) iterations += 1;
 	else ;
-	
+	*/
     for (int i = 0; i < iterations; i++) {
-		double coor_x = centre_x + demi_grand_axe*cos(M_PI*i/(iterations/2));
-		double coor_y = centre_y + demi_petit_axe *sin(M_PI*i/(iterations/2));	
+		double coor_x = (centre_x + demi_grand_axe*cos(M_PI*i/(iterations/2)))*v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t;
+		double coor_y = (centre_y + demi_petit_axe *sin(M_PI*i/(iterations/2)))*v_planete(calc_perimetre(demi_grand_axe, demi_petit_axe), revolution)/delta_t;	
 		        
         fprintf(file, "%0.6f,%0.6f", coor_x, coor_y );    
         fprintf(file, "\n");
@@ -57,50 +64,49 @@ void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_
 
 int main(int argc, char * argv[]) {
 	
-	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 2439};
+	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 87.96};
 	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
-	Mercure.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.rayon);
+	Mercure.v_planete = v_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.revolution);
 	
-	struct Planete Venus = {"Venus", 105.615*pow(10,3), 0.0051, 0, 0, 6052};
+	struct Planete Venus = {"Venus", 105.615*pow(10,3), 0.0051, 0, 0, 224.70};
 	Venus.demi_petit_axe = calc_demi_petit_axe(Venus.demi_grand_axe, Venus.excentricite);
-	Venus.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Venus.demi_grand_axe, Venus.demi_petit_axe), Venus.rayon);
+	Venus.v_planete = v_planete(calc_perimetre(Venus.demi_grand_axe, Venus.demi_petit_axe), Venus.revolution);
 	
-	struct Planete Terre = {"Terre", 150.5*pow(10,3), 0.101, 0, 0, 6358};
+	struct Planete Terre = {"Terre", 150.5*pow(10,3), 0.101, 0, 0, 365.25};
 	Terre.demi_petit_axe = calc_demi_petit_axe(Terre.demi_grand_axe, Terre.excentricite);
-	Terre.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Terre.demi_grand_axe, Terre.demi_petit_axe), Terre.rayon);
+	Terre.v_planete = v_planete(calc_perimetre(Terre.demi_grand_axe, Terre.demi_petit_axe), Terre.revolution);
 	
-	struct Planete Mars = {"Mars", 227.84*pow(10,3), 0.103, 0, 0, 3327};
+	struct Planete Mars = {"Mars", 227.84*pow(10,3), 0.103, 0, 0, 686.98};
 	Mars.demi_petit_axe = calc_demi_petit_axe(Mars.demi_grand_axe, Mars.excentricite);
-	Mars.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Mars.demi_grand_axe, Mars.demi_petit_axe), Mars.rayon);
+	Mars.v_planete = v_planete(calc_perimetre(Mars.demi_grand_axe, Mars.demi_petit_axe), Mars.revolution);
 	
-	struct Planete Jupiter = {"Jupiter", 778.345*pow(10,3), 0.0507, 0, 0, 71500};
+	struct Planete Jupiter = {"Jupiter", 778.345*pow(10,3), 0.0507, 0, 0, 4332.59};
 	Jupiter.demi_petit_axe = calc_demi_petit_axe(Jupiter.demi_grand_axe, Jupiter.excentricite);
-	Jupiter.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Jupiter.demi_grand_axe, Jupiter.demi_petit_axe), Jupiter.rayon);
+	Jupiter.v_planete = v_planete(calc_perimetre(Jupiter.demi_grand_axe, Jupiter.demi_petit_axe), Jupiter.revolution);
 	
-	struct Planete Saturne = {"Saturne", 1427.18*pow(10,3), 0.0593, 0, 0, 60300};
+	struct Planete Saturne = {"Saturne", 1427.18*pow(10,3), 0.0593, 0, 0, 10759.23};
 	Saturne.demi_petit_axe = calc_demi_petit_axe(Saturne.demi_grand_axe, Saturne.excentricite);
-	Saturne.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Saturne.demi_grand_axe, Saturne.demi_petit_axe), Saturne.rayon);
+	Saturne.v_planete = v_planete(calc_perimetre(Saturne.demi_grand_axe, Saturne.demi_petit_axe), Saturne.revolution);
 	
-	struct Planete Uranus = {"Uranus", 2870.83*pow(10,3), 0.0482, 0, 0, 25600};
+	struct Planete Uranus = {"Uranus", 2870.83*pow(10,3), 0.0482, 0, 0, 30685.4};
 	Uranus.demi_petit_axe = calc_demi_petit_axe(Uranus.demi_grand_axe, Uranus.excentricite);
-	Uranus.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Uranus.demi_grand_axe, Uranus.demi_petit_axe), Uranus.rayon);
+	Uranus.v_planete = v_planete(calc_perimetre(Uranus.demi_grand_axe, Uranus.demi_petit_axe), Uranus.revolution);
 	
-	struct Planete Neptune = {"Neptune", 4496.975*pow(10,3), 0.0098, 0, 0, 24800};
+	struct Planete Neptune = {"Neptune", 4496.974*pow(10,3), 0.0098, 0, 0, 60216.8};
 	Neptune.demi_petit_axe = calc_demi_petit_axe(Neptune.demi_grand_axe, Neptune.excentricite);
-	Neptune.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Neptune.demi_grand_axe, Neptune.demi_petit_axe), Neptune.rayon);
+	Neptune.v_planete = v_planete(calc_perimetre(Neptune.demi_grand_axe, Neptune.demi_petit_axe), Neptune.revolution);
 	
 	double centre_x = 5.0e+6;
 	double centre_y = 5.0e+6;
 
-	fichierCSV("planete_Mercure1.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe, Mercure.iterations);
-	fichierCSV("planete_Venus1.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe, Venus.iterations);
-	fichierCSV("planete_Terre1.csv", centre_x, centre_y, Terre.demi_grand_axe, Terre.demi_petit_axe, Terre.iterations);
-	fichierCSV("planete_Mars1.csv", centre_x, centre_y, Mars.demi_grand_axe, Mars.demi_petit_axe, Mars.iterations);
-	fichierCSV("planete_Jupiter1.csv", centre_x, centre_y, Jupiter.demi_grand_axe, Jupiter.demi_petit_axe, Jupiter.iterations);
-	fichierCSV("planete_Saturne1.csv", centre_x, centre_y, Saturne.demi_grand_axe, Saturne.demi_petit_axe, Saturne.iterations);
-	fichierCSV("planete_Uranus1.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe, Uranus.iterations);
-	fichierCSV("planete_Neptune1.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe, Neptune.iterations);
+	fichierCSV("planete_Mercure1.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe, Mercure.revolution);
+	fichierCSV("planete_Venus1.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe, Venus.revolution);
+	fichierCSV("planete_Terre1.csv", centre_x, centre_y, Terre.demi_grand_axe, Terre.demi_petit_axe, Terre.revolution);
+	fichierCSV("planete_Mars1.csv", centre_x, centre_y, Mars.demi_grand_axe, Mars.demi_petit_axe, Mars.revolution);
+	fichierCSV("planete_Jupiter1.csv", centre_x, centre_y, Jupiter.demi_grand_axe, Jupiter.demi_petit_axe, Jupiter.revolution);
+	fichierCSV("planete_Saturne1.csv", centre_x, centre_y, Saturne.demi_grand_axe, Saturne.demi_petit_axe, Saturne.revolution);
+	fichierCSV("planete_Uranus1.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe, Uranus.revolution);
+	fichierCSV("planete_Neptune1.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe, Neptune.revolution);
 	
-
 	return 0; 
 }
