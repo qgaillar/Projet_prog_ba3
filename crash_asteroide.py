@@ -5,6 +5,10 @@ Created on Fri Nov 26 11:40:23 2021
 @author: Romeo Rouzier
 """
 
+
+from Projet_prog_ba3 import asteroide_coor
+
+
 asteroide.genfromtext(coor_x, coor_y)
 
 
@@ -23,5 +27,5 @@ for i in range len(planetes) :
 
 
 while i < 100 :
-    animate = 0 
+    animate(asteroide) = 0 
     i += 1
