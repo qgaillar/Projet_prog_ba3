@@ -43,7 +43,7 @@ double calc_nb_iterations_selon_planete (double perimetre, double v_planete) {
 	//pour avoir des jours (qui eux aussi ne sont pas les vrais temps de révolution à cause de l'approximation du périmètre 
 	// et du fait qu'il nous faut un nombre entier pour faire des itérations par rapport à 2*pi)
 	
-	printf("%d\n", t_revolution);
+	
 	return t_revolution;
 }
 
@@ -51,7 +51,7 @@ double calc_nb_iterations_selon_planete (double perimetre, double v_planete) {
 void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_grand_axe, double demi_petit_axe, int iterations) {
 	FILE * file = fopen(filename, "w+");
 	
-	if (iterations % 2 == 0) iterations += 1;
+	if (iterations % 2 != 0) iterations += 1;
 	else ;
 	
     for (int i = 0; i < iterations; i++) {
@@ -106,14 +106,14 @@ int main(int argc, char * argv[]) {
 	double centre_x = 5.0e+6;
 	double centre_y = 5.0e+6;
 
-	fichierCSV("planete_Mercure1.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe, Mercure.iterations);
-	fichierCSV("planete_Venus1.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe, Venus.iterations);
-	fichierCSV("planete_Terre1.csv", centre_x, centre_y, Terre.demi_grand_axe, Terre.demi_petit_axe, Terre.iterations);
-	fichierCSV("planete_Mars1.csv", centre_x, centre_y, Mars.demi_grand_axe, Mars.demi_petit_axe, Mars.iterations);
-	fichierCSV("planete_Jupiter1.csv", centre_x, centre_y, Jupiter.demi_grand_axe, Jupiter.demi_petit_axe, Jupiter.iterations);
-	fichierCSV("planete_Saturne1.csv", centre_x, centre_y, Saturne.demi_grand_axe, Saturne.demi_petit_axe, Saturne.iterations);
-	fichierCSV("planete_Uranus1.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe, Uranus.iterations);
-	fichierCSV("planete_Neptune1.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe, Neptune.iterations);
+	fichierCSV("planete_Mercure.csv", centre_x, centre_y, Mercure.demi_grand_axe, Mercure.demi_petit_axe, Mercure.iterations);
+	fichierCSV("planete_Venus.csv", centre_x, centre_y, Venus.demi_grand_axe, Venus.demi_petit_axe, Venus.iterations);
+	fichierCSV("planete_Terre.csv", centre_x, centre_y, Terre.demi_grand_axe, Terre.demi_petit_axe, Terre.iterations);
+	fichierCSV("planete_Mars.csv", centre_x, centre_y, Mars.demi_grand_axe, Mars.demi_petit_axe, Mars.iterations);
+	fichierCSV("planete_Jupiter.csv", centre_x, centre_y, Jupiter.demi_grand_axe, Jupiter.demi_petit_axe, Jupiter.iterations);
+	fichierCSV("planete_Saturne.csv", centre_x, centre_y, Saturne.demi_grand_axe, Saturne.demi_petit_axe, Saturne.iterations);
+	fichierCSV("planete_Uranus.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe, Uranus.iterations);
+	fichierCSV("planete_Neptune.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe, Neptune.iterations);
 	
 
 	return 0; 
