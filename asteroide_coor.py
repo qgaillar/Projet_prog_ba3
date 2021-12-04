@@ -46,7 +46,7 @@ while (asteroide_x >100000 and asteroide_x < 900000) and (asteroide_y > 100000 a
     print("l'asteroide est trop proche des planetes, il faut prendre une valeur de y entre 0 et 100000 ou 900000 et 1000000")
     y = valeur_coor()
     asteroide_y = int(y)
-print("c est juste le boss")
+print("bravo maintenant on passe à la partie difficile")
 
 
 list_coor_x = []  
