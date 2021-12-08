@@ -1,13 +1,13 @@
 import numpy as np
 
 
-nom_planètes = ['Mercure1', 'Venus1', 'Terre1', 'Mars1', 'Jupiter1', 'Saturne1', 'Uranus1', 'Neptune1', 'Asteroide0']
+nom_planètes = ['Mercure', 'Venus', 'Terre', 'Mars', 'Jupiter', 'Saturne', 'Uranus', 'Neptune']
+#multiplication_fichier_csv = [732, 274, 164, 88, 14, 6, 2, 1]
 
 
 
-def planètes(nom_planète):
-
-    nom_planète = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/planete_' + nom_planète + '.csv', delimiter = ',', dtype = None)
+def planètes(planète):
+    nom_planète = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/planete_' + planète + '.csv', delimiter = ',', dtype = None)
     x = nom_planète[:, 0]
     y = nom_planète[:, 1]
     nb_frame = len(nom_planète)

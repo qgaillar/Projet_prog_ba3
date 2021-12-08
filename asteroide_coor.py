@@ -22,28 +22,15 @@ def valeur_coor():
             it_is = False
         if it_is == False:
             print("Il faut mettre un chiffre et non une suite de caractères")
-            valeur = input("Mettre un nombre entre 0 et 1000000   ")
+            valeur = input("Mettre un nombre entre 0 et 10000000   ")
         else :
             break 
 
     valeur_int = int(valeur)
     
-    while valeur_int < 0 or valeur_int >1000000 :
+    while valeur_int < 0 or valeur_int >10000000 :
         print("La valeur n'est pas dans notre plot  ")
-        valeur_int = int(input("Mettez un nombre entre 0 et 1000000  "))
+        valeur_int = int(input("Mettez un nombre entre 0 et 10000000  "))
     print(valeur_int)
     return valeur_int
 
-"""
-x = valeur_coor ()   
-y = valeur_coor ()
-
-asteroide_x = int(x)
-asteroide_y = int(y)
-
-while (asteroide_x >100000 and asteroide_x < 900000) and (asteroide_y > 100000 and asteroide_y < 900000 != True):
-    print("l'asteroide est trop proche des planetes, il faut prendre une valeur de y entre 0 et 100000 ou 900000 et 1000000")
-    y = valeur_coor()
-    asteroide_y = int(y)
-print("bravo maintenant on passe à la partie difficile")
-"""
