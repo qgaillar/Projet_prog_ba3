@@ -15,6 +15,7 @@ struct Planete {
 	int iterations;
 	double vitesse_planete;
 	int multiple;
+	double rayon_collision;
 
 };
 
@@ -63,6 +64,12 @@ void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_
     fclose(file);
 }
 
+double calc_rayon_collision(double perimetre, int iteration) {
+	double rayon_collision = perimetre / (double) (iteration * 2);
+
+	return rayon_collision;
+}
+
 int main(int argc, char * argv[]) {
 	
 	/* nous avons décidés de compter en milliers de kilomètres c est pourquoi toutes nos valeurs de demi grand axe et la vistesse sont divisées par 1000
@@ -76,6 +83,9 @@ int main(int argc, char * argv[]) {
 	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 175.936, 732};
 	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
 	Mercure.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.vitesse_planete);
+	Mercure.rayon_collision = calc_rayon_collision(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.iterations);
+	printf("%f\n", calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe));
+	printf("%f\n", Mercure.rayon_collision);
 	// le perimetre de Mercure étant calculé à l'aide du demi-grand axe et du demi-petit axe, nous avons un périmètre assez éloigné de la valeur réelle
 	
 	struct Planete Venus = {"Venus", 105.615*pow(10,3), 0.0051, 0, 0, 126.062, 274};
