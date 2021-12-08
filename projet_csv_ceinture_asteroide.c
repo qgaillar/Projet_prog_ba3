@@ -34,10 +34,7 @@ int main(int argc, char * argv[]) {
     
     int centre_x = 5000;
     int centre_y = 5000;
-    
-    
-    
-    
+        
     for (int i = 0; i <10; i++) {
 		double demi_grand_axe_random = rand() / randomDomaine * 1;
 		printf("%f\n", demi_grand_axe_random);

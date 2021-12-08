@@ -76,6 +76,7 @@ int main(int argc, char * argv[]) {
 	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 175.936, 732};
 	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
 	Mercure.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.vitesse_planete);
+	// le perimetre de Mercure étant calculé à l'aide du demi-grand axe et du demi-petit axe, nous avons un périmètre assez éloigné de la valeur réelle
 	
 	struct Planete Venus = {"Venus", 105.615*pow(10,3), 0.0051, 0, 0, 126.062, 274};
 	Venus.demi_petit_axe = calc_demi_petit_axe(Venus.demi_grand_axe, Venus.excentricite);
