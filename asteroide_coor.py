@@ -4,7 +4,6 @@ Created on Wed Nov 24 16:22:12 2021
 
 @author: Romeo Rouzier
 """
-import random
 
 def valeur_coor():
     valeur = input("Quelle est la coordonnée voulue   ")
@@ -35,7 +34,7 @@ def valeur_coor():
     print(valeur_int)
     return valeur_int
 
-
+"""
 x = valeur_coor ()   
 y = valeur_coor ()
 
@@ -47,17 +46,4 @@ while (asteroide_x >100000 and asteroide_x < 900000) and (asteroide_y > 100000 a
     y = valeur_coor()
     asteroide_y = int(y)
 print("bravo maintenant on passe à la partie difficile")
-
-
-list_coor_x = []  
-list_coor_y = [] 
-
-     
-vitesse_asteroide_x = random.randrange(-20, 20, 1)        
-#print(vitesse_asteroide_x)
-vitesse_asteroide_y = random.randrange(-20, 20, 1)
-"""
-for i in range 
-coor_finale_x += x + vitesse_asteroide_x
-coor_finale_y += y + vitesse_asteroide_y
 """

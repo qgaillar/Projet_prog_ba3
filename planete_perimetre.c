@@ -62,34 +62,7 @@ void fichierCSV ( char* filename, double centre_x, double centre_y, double demi_
 
     fclose(file);
 }
-/*
-void fichierCSV2 ( char* filename, int multiplication, char * fichier) {
-	FILE * file = fopen(filename, "w+");
-	
-	FILE * fichier2 = fopen(fichier, "r");
-	char c;
-	int v [] = {0,0,0,0,0,0,0,0,0,0,0};
-	
-	char delimiter = ',';
-						
-	while((c=fgetc(fichier2))!=EOF){
-		while ( c != delimiter) {
-			for (int j = 0; j < 11; j++) {
-				
-				v[j] = c;
-				printf("%n", v);
-			}
-		}
-		for (int i = 0; i < multiplication; i++) { 
-			fprintf(file, "%n", v); 
-			fprintf(file, "\n");
-	} 	   
-		
-    }
 
-    fclose(file);
-}
-*/
 int main(int argc, char * argv[]) {
 	
 	/* nous avons décidés de compter en milliers de kilomètres c est pourquoi toutes nos valeurs de demi grand axe et la vistesse sont divisées par 1000
@@ -99,6 +72,7 @@ int main(int argc, char * argv[]) {
 	   pour les structures, nous avons initialisés les demis petits axes et les itérations à 0 car nous les calculons juste après avec les valeurs que 
 	  nous avons implémentées.
 	*/
+	
 	struct Planete Mercure = {"Mercure", 56.625*pow(10,3), 0.2589, 0, 0, 175.936, 732};
 	Mercure.demi_petit_axe = calc_demi_petit_axe(Mercure.demi_grand_axe, Mercure.excentricite);
 	Mercure.iterations = calc_nb_iterations_selon_planete(calc_perimetre(Mercure.demi_grand_axe, Mercure.demi_petit_axe), Mercure.vitesse_planete);
@@ -143,7 +117,6 @@ int main(int argc, char * argv[]) {
 	fichierCSV("planete_Uranus.csv", centre_x, centre_y, Uranus.demi_grand_axe, Uranus.demi_petit_axe, Uranus.iterations, Uranus.multiple);
 	fichierCSV("planete_Neptune.csv", centre_x, centre_y, Neptune.demi_grand_axe, Neptune.demi_petit_axe, Neptune.iterations, Neptune.multiple);
 	
-	//fichierCSV2("Mercure7.csv", 2, "planete_Mercure.csv");
 	
 	return 0; 
 }
