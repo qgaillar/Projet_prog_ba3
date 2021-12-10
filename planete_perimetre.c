@@ -149,6 +149,8 @@ double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 		Planetes[j].cos_planete = fabs(x_Asteroid_crash_test - Planetes[j].coord_x[i]) / pow((x_Asteroid_crash_test - pow(Planetes[j].coord_x[i],2) + (y_Asteroid_crash_test - pow(Planetes[j].coord_y[i],2))), 1/2);
 		printf("%f\n", Planetes[j].cos_planete);
 		Fg_tot_x += Fg(Planetes[j].masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].cos_planete;
+		
+		REVOIR LES COS QUI FONT DE LA MERDE
 	}
 	Soleil.cos_etoile = fabs(x_Asteroid_crash_test - Soleil.coord_x) / pow((x_Asteroid_crash_test - pow(Soleil.coord_x,2) + (y_Asteroid_crash_test - pow(Soleil.coord_y,2))), 1/2);
 	Fg_tot_x += Fg(Soleil.masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.cos_etoile;
@@ -371,7 +373,7 @@ int main(int argc, char * argv[]) {
 	coord_x_Asteroid[0] = Asteroid.x_init;
 	coord_y_Asteroid[0] = Asteroid.y_init;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 60000; i++) {
 		double tmp1 = Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroid, Planetes, Soleil);
 		//printf("%f\n", tmp1);
 		
@@ -384,7 +386,7 @@ int main(int argc, char * argv[]) {
          }
         
         
-	fichierCSV_Asteroid("ASteroide.csv", Asteroid, coord_x_Asteroid, coord_y_Asteroid,  10); 
+	fichierCSV_Asteroid("ASteroide.csv", Asteroid, coord_x_Asteroid, coord_y_Asteroid,  60000); 
         
 	
 
