@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from numpy.core.fromnumeric import size
 from planètes import *  #fonction qui attribue à chaque planètes ses coord x et y grâce ouverture fichier csv
 from asteroide_coor import *
 
@@ -183,6 +184,16 @@ def coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, j, V0, theta):
 
 coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta)
 
+def distance_asteroid_planete(x_asteroid, y_asteroid, x_planete, y_planete):
+    distance_A_P = np.sqrt((x_asteroid - x_planete)**2 + (y_asteroid - y_planete)**2)
+    return distance_A_P
+
+def collision(distance, rayon):
+    if distance <= rayon:
+        plt.text(600000, 8000000, 'COLLISION !', color = 'red', weigth = 'bold', fontsize = 15)
+
+
+
 #coord_x_Asteroid, coord_y_Asteroid = coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta)
 
 #----fonctions de mise en mouvement des astres-----#
@@ -213,7 +224,6 @@ def animate_Saturne(i):
 
 def animate_Uranus(i):
     Uranus_plt.set_data(Uranus.coord_x[i], Uranus.coord_y[i])
-    #print(Uranus.coord_x[i])
     return Uranus_plt
 
 
@@ -248,6 +258,8 @@ anim_Uranus = animation.FuncAnimation(fig, animate_Uranus, frames = Uranus.nb_fr
 anim_Neptune = animation.FuncAnimation(fig, animate_Neptune, frames = Neptune.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
 anim_Asteroid = animation.FuncAnimation(fig, animate_Asteroid, frames = len(coord_x_Asteroid) ,interval = interval_time, blit = False, repeat = True)
+
+
 
 
 

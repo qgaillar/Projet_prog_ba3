@@ -2,7 +2,6 @@ import numpy as np
 
 
 nom_planètes = ['Mercure', 'Venus', 'Terre', 'Mars', 'Jupiter', 'Saturne', 'Uranus', 'Neptune']
-#multiplication_fichier_csv = [732, 274, 164, 88, 14, 6, 2, 1]
 
 
 
