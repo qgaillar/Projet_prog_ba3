@@ -95,8 +95,8 @@ double calc_rayon_collision(double perimetre, int iteration) {
 	return rayon_collision;
 }
 
-double coor_ast(char* coordonnee)
-{
+double coor_ast(char* coordonnee) {
+
     double n; 
     
 	printf("Entrer une coordonnee %s entre 0 et 10^7:", coordonnee);     
@@ -115,7 +115,7 @@ double Fg(double masse, double masse_asteroide, double x_Asteroid_t_reel, double
 }
 
 
-double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete Planetes[], struct Etoile Soleil) {
+double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete * Planetes, struct Etoile Soleil) {
 	double Fg_tot_x = 0;
 	for (int j = 0; j < 8; j++) {
 		Planetes[j].cos_planete = fabs(x_Asteroid_crash_test - Planetes[0].coord_x[i]) / pow((x_Asteroid_crash_test - pow(Planetes[0].coord_x[i],2) + (y_Asteroid_crash_test - pow(Planetes[0].coord_y[i],2))), 1/2);
@@ -129,11 +129,12 @@ double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 
 
 
-double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete Planetes[], struct Etoile Soleil) {
+double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete * Planetes, struct Etoile Soleil) {
 	double Fg_tot_y = 0;
 	for (int j = 0; j < 8; j++) {
 		Planetes[j].sin_planete = fabs(y_Asteroid_crash_test - Planetes[0].coord_y[i]) / pow((x_Asteroid_crash_test - pow(Planetes[0].coord_x[i],2) + (y_Asteroid_crash_test - pow(Planetes[0].coord_y[i],2))), 1/2);
 		Fg_tot_y += Fg(Planetes[j].masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].sin_planete;
+		printf("%f\n", Fg_tot_y);
 	}
 	Soleil.sin_etoile = fabs(y_Asteroid_crash_test - Soleil.coord_y) / pow((x_Asteroid_crash_test - pow(Soleil.coord_x,2) + (y_Asteroid_crash_test - pow(Soleil.coord_y,2))), 1/2);
 	Fg_tot_y += Fg(Soleil.masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.sin_etoile;
@@ -141,7 +142,7 @@ double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 }
 
 
-void fichierCSV_Asteroid ( char* filename, int iterations,  struct Asteroids Asteroid, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
+void fichierCSV_Asteroid ( char* filename, int iterations,  struct Asteroids asteroid, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
 	FILE * file = fopen(filename, "w+");
 	
 	if (iterations % 2 != 0) iterations += 1;
@@ -267,21 +268,21 @@ int main(int argc, char * argv[]) {
 	Planetes[0].masse = 33*pow(10,22);
 	Planetes[0].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[0].demi_grand_axe, Planetes[0].demi_petit_axe), Planetes[0].vitesse_planete);
 	Planetes[0].vitesse_planete = 175.936;
-	Planetes[0].multiple = 732,0;
+	Planetes[0].multiple = 732.0;
 	Planetes[0].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[0].demi_grand_axe, Planetes[0].demi_petit_axe), Planetes[0].iterations);
 	Planetes[0].coord_x = 0;
 	Planetes[0].coord_y = 0;
 	Planetes[0].cos_planete = 0;
 	Planetes[0].sin_planete = 0;
 
-	Planetes[1].nom = "venus";
+	Planetes[1].nom = "Venus";
 	Planetes[1].demi_grand_axe = 105.615*pow(10,3);
 	Planetes[1].excentricite = 0.0051;
 	Planetes[1].demi_petit_axe = calc_demi_petit_axe(Planetes[1].demi_grand_axe, Planetes[1].excentricite);
 	Planetes[1].masse = 490*pow(10,22);
 	Planetes[1].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[1].demi_grand_axe, Planetes[1].demi_petit_axe), Planetes[1].vitesse_planete);
 	Planetes[1].vitesse_planete = 126.062;
-	Planetes[1].multiple = 274,0;
+	Planetes[1].multiple = 274.0;
 	Planetes[1].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[1].demi_grand_axe, Planetes[1].demi_petit_axe), Planetes[1].iterations);
 	Planetes[1].coord_x = 0;
 	Planetes[1].coord_y = 0;
@@ -295,7 +296,7 @@ int main(int argc, char * argv[]) {
 	Planetes[2].masse = 600*pow(10,22);
 	Planetes[2].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[2].demi_grand_axe, Planetes[2].demi_petit_axe), Planetes[2].vitesse_planete);
 	Planetes[2].vitesse_planete = 107.243;
-	Planetes[2].multiple = 164,0;
+	Planetes[2].multiple = 164.0;
 	Planetes[2].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[2].demi_grand_axe, Planetes[2].demi_petit_axe), Planetes[2].iterations);
 	Planetes[2].coord_x = 0;
 	Planetes[2].coord_y = 0;
@@ -309,7 +310,7 @@ int main(int argc, char * argv[]) {
 	Planetes[3].masse = 64 * pow(10,22);
 	Planetes[3].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[3].demi_grand_axe, Planetes[3].demi_petit_axe), Planetes[3].vitesse_planete);
 	Planetes[3].vitesse_planete = 87.226;
-	Planetes[3].multiple = 88,0;
+	Planetes[3].multiple = 88.0;
 	Planetes[3].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[3].demi_grand_axe, Planetes[3].demi_petit_axe), Planetes[3].iterations);
 	Planetes[3].coord_x = 0;
 	Planetes[3].coord_y = 0;
@@ -323,7 +324,7 @@ int main(int argc, char * argv[]) {
 	Planetes[4].masse = 190000 * pow(10,22);
 	Planetes[4].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[4].demi_grand_axe, Planetes[4].demi_petit_axe), Planetes[4].vitesse_planete);
 	Planetes[4].vitesse_planete = 47.196;
-	Planetes[4].multiple = 14,0;
+	Planetes[4].multiple = 14.0;
 	Planetes[4].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[4].demi_grand_axe, Planetes[4].demi_petit_axe), Planetes[4].iterations);
 	Planetes[4].coord_x = 0;
 	Planetes[4].coord_y = 0;
@@ -337,7 +338,7 @@ int main(int argc, char * argv[]) {
 	Planetes[5].masse = 57000 * pow(10,22);
 	Planetes[5].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[5].demi_grand_axe, Planetes[5].demi_petit_axe), Planetes[5].vitesse_planete);
 	Planetes[5].vitesse_planete = 34.962;
-	Planetes[5].multiple = 6,0;
+	Planetes[5].multiple = 6.0;
 	Planetes[5].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[3].demi_grand_axe, Planetes[3].demi_petit_axe), Planetes[3].iterations);
 	Planetes[5].coord_x = 0;
 	Planetes[5].coord_y = 0;
@@ -351,7 +352,7 @@ int main(int argc, char * argv[]) {
 	Planetes[6].masse = 8700 * pow(10,22);
 	Planetes[6].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[6].demi_grand_axe, Planetes[6].demi_petit_axe), Planetes[6].vitesse_planete);
 	Planetes[6].vitesse_planete = 24.459;
-	Planetes[6].multiple = 2,0;
+	Planetes[6].multiple = 2.0;
 	Planetes[6].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[6].demi_grand_axe, Planetes[6].demi_petit_axe), Planetes[6].iterations);
 	Planetes[6].coord_x = 0;
 	Planetes[6].coord_y = 0;
@@ -365,7 +366,7 @@ int main(int argc, char * argv[]) {
 	Planetes[7].masse = 10000 * pow(10,22);
 	Planetes[7].iterations = calc_nb_iterations_selon_planete(calc_perimetre(Planetes[7].demi_grand_axe, Planetes[7].demi_petit_axe), Planetes[7].vitesse_planete);
 	Planetes[7].vitesse_planete = 19.566;
-	Planetes[7].multiple = 1,0;
+	Planetes[7].multiple = 1.0;
 	Planetes[7].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[7].demi_grand_axe, Planetes[7].demi_petit_axe), Planetes[7].iterations);
 	Planetes[7].coord_x = 0;
 	Planetes[7].coord_y = 0;
@@ -464,8 +465,12 @@ int main(int argc, char * argv[]) {
 	coord_y_Asteroid[0] = Asteroid.y_init;
 
 	for (int i = 0; i < 60000; i++) {
-		coord_x_Asteroid[i + 1] = coord_x_Asteroid[i] + ((Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i, , struct Planete Planetes[], struct Etoile Soleil)) / Asteroid.masse * (pow((i+1),2)/2)) + Asteroid.V0 * (i+1) * cos(Asteroid.theta);
-        coord_y_Asteroid[i + 1] = coord_y_Asteroid[i] + ((Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i, )) / Asteroid.masse * (pow((i+1),2)/2)) + Asteroid.V0 * (i+1) * sin(Asteroid.theta);
+		double tmp1 = Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroid, Planetes, Soleil);
+		double tmp =  tmp1 / Asteroid.masse * (pow((i+1),2)/2) + Asteroid.V0 * (i+1) * cos(Asteroid.theta);
+		coord_x_Asteroid[i + 1] = coord_x_Asteroid[i] + tmp;
+		tmp1 = Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroid, Planetes, Soleil);
+		tmp = tmp1  / Asteroid.masse * (pow((i+1),2)/2) + Asteroid.V0 * (i+1) * sin(Asteroid.theta);
+        coord_y_Asteroid[i + 1] = coord_y_Asteroid[i] + tmp;
 	
 
  
@@ -489,4 +494,5 @@ int main(int argc, char * argv[]) {
 */
 
 	return 0; 
+}
 }
