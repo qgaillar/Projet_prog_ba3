@@ -375,7 +375,7 @@ int main(int argc, char * argv[]) {
 	
 	
 
-	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Neptune.csv"};
+	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Uranus.csv", "planete_Neptune.csv"};
 
 	for (int i = 0; i < 8; i++) {
 		coordonnees_planetes_x (Planetes[i].coord_x, centre_x, Planetes[i].demi_grand_axe, Planetes[i].demi_petit_axe, Planetes[i].iterations, Planetes[i].multiple);
@@ -404,7 +404,7 @@ int main(int argc, char * argv[]) {
         //if (coord_x_Asteroide[i+1] > 10000000 || coord_x_Asteroide[i+1] < 0 || coord_y_Asteroide[i+1] > 10000000 || coord_y_Asteroide[i+1] < 0) break;
 		//else ;
 		
-        printf("%f\n", coord_x_Asteroid[i + 1]);
+        //printf("%f\n", coord_x_Asteroid[i + 1]);
         
 
          }
