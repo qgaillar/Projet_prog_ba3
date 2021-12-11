@@ -159,11 +159,10 @@ double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 	Soleil.cos_etoile = fabs(x_Asteroid_crash_test - Soleil.coord_x) / (pow(pow(x_Asteroid_crash_test - Soleil.coord_x,2) + pow(y_Asteroid_crash_test - Soleil.coord_y,2), 0.5));
 	//printf("%f\n", Soleil.cos_etoile);
 	Fg_tot_x += Fg(Soleil.masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.cos_etoile;
+	Fg_tot_x = Fg_tot_x * pow(10, -3);
 	//printf("%f\n", Fg_tot_x);
-	return Fg_tot_x;
+	return Fg_tot_x ;
 }
-
-
 
 
 double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroide, struct Planete * Planetes, struct Etoile Soleil) {
@@ -180,10 +179,12 @@ double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 		
 	}
 	Soleil.sin_etoile = fabs(y_Asteroid_crash_test - Soleil.coord_y) / (pow(pow(x_Asteroid_crash_test - Soleil.coord_x,2) + pow(y_Asteroid_crash_test - Soleil.coord_y,2), 0.5));
+	
 	//printf("%f\n", Soleil.cos_etoile);
 	Fg_tot_y += Fg(Soleil.masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.sin_etoile;
+	Fg_tot_y = Fg_tot_y * pow(10, -3);
 	//printf("%f\n", Fg_tot_y);
-	return Fg_tot_y;
+	return Fg_tot_y ;
 }
 
 
@@ -349,7 +350,7 @@ int main(int argc, char * argv[]) {
 	Asteroide.nom = "Asteroid";
 	Asteroide.masse = pow(10, 18);
 	Asteroide.rayon = 500;
-	Asteroide.V0 = 0.0005;
+	Asteroide.V0 = 0.00005;
 	Asteroide.theta = 45; 
 	Asteroide.x_init = 0;
 	Asteroide.y_init = 0;
