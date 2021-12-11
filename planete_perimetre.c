@@ -135,44 +135,59 @@ double coor_ast(char* coordonnee) {
 double Fg(double masse, double masse_asteroide, double x_Asteroid_t_reel, double y_Asteroid_t_reel, double x_planete, double y_planete){
 	double G = 6.67*pow(10, -11);
     double delta_x = x_Asteroid_t_reel - x_planete;
-    double delta_y = y_Asteroid_t_reel - y_planete;
-    double dist = pow(pow(delta_x,2) + pow(delta_y,2), 1/2);
-    double Force_gravitationnelle = (G * masse * masse_asteroide) / pow((dist * 10e3),2);  //10e3 = conversion en mètres*
+    double delta_y = y_Asteroid_t_reel - y_planete; 
+    double dist = pow((pow(delta_x,2) + pow(delta_y,2)), 0.5);
+    double Force_gravitationnelle = (G * masse * masse_asteroide) / pow((dist * 1000),2);  //10e3 = conversion en mètres*
     
     return Force_gravitationnelle;
 }
 
 
-double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete * Planetes, struct Etoile Soleil) {
+double Fg_totale_x(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroide, struct Planete * Planetes, struct Etoile Soleil) {
 	double Fg_tot_x = 0;
 	for (int j = 0; j < 8; j++) {
-		Planetes[j].cos_planete = fabs(x_Asteroid_crash_test - Planetes[j].coord_x[i]) / pow((x_Asteroid_crash_test - pow(Planetes[j].coord_x[i],2) + (y_Asteroid_crash_test - pow(Planetes[j].coord_y[i],2))), 1/2);
-		printf("%f\n", Planetes[j].cos_planete);
-		Fg_tot_x += Fg(Planetes[j].masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].cos_planete;
+		double adj = fabs(x_Asteroid_crash_test - Planetes[j].coord_x[i]);
+		double dist_x_carre = pow((x_Asteroid_crash_test - Planetes[j].coord_x[i]),2);
+		double dist_y_carre = pow((y_Asteroid_crash_test - Planetes[j].coord_y[i]),2);
+		double hyp = pow((dist_x_carre + dist_y_carre), 0.5);
+		Planetes[j].cos_planete =  adj / hyp;		
+		//printf("%f\n", Planetes[j].cos_planete);
+		Fg_tot_x += Fg(Planetes[j].masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].cos_planete;
+		//printf("%f\n", Fg_tot_x);
 		
-		REVOIR LES COS QUI FONT DE LA MERDE
 	}
-	Soleil.cos_etoile = fabs(x_Asteroid_crash_test - Soleil.coord_x) / pow((x_Asteroid_crash_test - pow(Soleil.coord_x,2) + (y_Asteroid_crash_test - pow(Soleil.coord_y,2))), 1/2);
-	Fg_tot_x += Fg(Soleil.masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.cos_etoile;
+	Soleil.cos_etoile = fabs(x_Asteroid_crash_test - Soleil.coord_x) / (pow(pow(x_Asteroid_crash_test - Soleil.coord_x,2) + pow(y_Asteroid_crash_test - Soleil.coord_y,2), 0.5));
+	//printf("%f\n", Soleil.cos_etoile);
+	Fg_tot_x += Fg(Soleil.masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.cos_etoile;
+	//printf("%f\n", Fg_tot_x);
 	return Fg_tot_x;
 }
 
 
 
 
-double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroid, struct Planete * Planetes, struct Etoile Soleil) {
+double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, int i, struct Asteroids Asteroide, struct Planete * Planetes, struct Etoile Soleil) {
 	double Fg_tot_y = 0;
 	for (int j = 0; j < 8; j++) {
-		Planetes[j].sin_planete = fabs(y_Asteroid_crash_test - Planetes[j].coord_y[i]) / pow((x_Asteroid_crash_test - pow(Planetes[j].coord_x[i],2) + (y_Asteroid_crash_test - pow(Planetes[j].coord_y[i],2))), 1/2);
-		Fg_tot_y += Fg(Planetes[j].masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].sin_planete;
+		double oppo = fabs(y_Asteroid_crash_test - Planetes[j].coord_y[i]);
+		double dist_x_carre = pow((x_Asteroid_crash_test - Planetes[j].coord_x[i]),2);
+		double dist_y_carre = pow((y_Asteroid_crash_test - Planetes[j].coord_y[i]),2);
+		double hyp = pow((dist_x_carre + dist_y_carre), 0.5);
+		Planetes[j].sin_planete =  oppo / hyp;		
+		//printf("%f\n", Planetes[j].sin_planete);
+		Fg_tot_y += Fg(Planetes[j].masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Planetes[j].coord_x[i], Planetes[j].coord_y[i]) * Planetes[j].sin_planete;
+		//printf("%f\n", Fg_tot_y);
+		
 	}
-	Soleil.sin_etoile = fabs(y_Asteroid_crash_test - Soleil.coord_y) / pow((x_Asteroid_crash_test - pow(Soleil.coord_x,2) + (y_Asteroid_crash_test - pow(Soleil.coord_y,2))), 1/2);
-	Fg_tot_y += Fg(Soleil.masse, Asteroid.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.sin_etoile;
+	Soleil.sin_etoile = fabs(y_Asteroid_crash_test - Soleil.coord_y) / (pow(pow(x_Asteroid_crash_test - Soleil.coord_x,2) + pow(y_Asteroid_crash_test - Soleil.coord_y,2), 0.5));
+	//printf("%f\n", Soleil.cos_etoile);
+	Fg_tot_y += Fg(Soleil.masse, Asteroide.masse, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.sin_etoile;
+	//printf("%f\n", Fg_tot_y);
 	return Fg_tot_y;
 }
 
 
-void fichierCSV_Asteroid ( char* filename, struct Asteroids asteroid, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
+void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
 	FILE * file = fopen(filename, "w+");
 
 	for (int i = 0; i < j; i++) {
@@ -196,8 +211,8 @@ int main(int argc, char * argv[]) {
 	  nous avons implémentées.
 	*/
 	
-	double centre_x = 5.0e+6;
-	double centre_y = 5.0e+6;
+	double centre_x = 5.0*pow(10,6);
+	double centre_y = 5.0*pow(10,6);
 
 	struct Planete Planetes[8];
 
@@ -324,20 +339,20 @@ int main(int argc, char * argv[]) {
 
 	struct Etoile Soleil;
 	Soleil.nom = "Soleil";
-	Soleil.masse = 1.989e30;
-	Soleil.coord_x = 4.9985 * 10e5;
-	Soleil.coord_y = 5 * 10e5;
+	Soleil.masse = 1.989* pow(10,30);
+	Soleil.coord_x = 4.9985 * pow(10,5);
+	Soleil.coord_y = 5 * pow(10,5);
 	Soleil.cos_etoile = 0;
 	Soleil.sin_etoile = 0;
 
-	struct Asteroids Asteroid;
-	Asteroid.nom = "Asteroid";
-	Asteroid.masse = 10e18;
-	Asteroid.rayon = 0;
-	Asteroid.V0 = 1;
-	Asteroid.theta = 0; 
-	Asteroid.x_init = 0;
-	Asteroid.y_init = 0;
+	struct Asteroids Asteroide;
+	Asteroide.nom = "Asteroid";
+	Asteroide.masse = pow(10, 18);
+	Asteroide.rayon = 500;
+	Asteroide.V0 = 0.0005;
+	Asteroide.theta = 45; 
+	Asteroide.x_init = 0;
+	Asteroide.y_init = 0;
 
 	double asteroide_x_init = coor_ast("x");
 	
@@ -354,8 +369,9 @@ int main(int argc, char * argv[]) {
 		asteroide_y_init = coor_ast("y");
 	}
 	
-	Asteroid.x_init = asteroide_x_init;
-	Asteroid.y_init = asteroide_y_init;
+	Asteroide.x_init = asteroide_x_init;
+	Asteroide.y_init = asteroide_y_init;
+	
 	
 
 	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Neptune.csv"};
@@ -370,26 +386,31 @@ int main(int argc, char * argv[]) {
 	double * coord_x_Asteroid = calloc(60000, sizeof (double));
 	double * coord_y_Asteroid = calloc(60000, sizeof (double));
 
-	coord_x_Asteroid[0] = Asteroid.x_init;
-	coord_y_Asteroid[0] = Asteroid.y_init;
+	coord_x_Asteroid[0] = Asteroide.x_init;
+	coord_y_Asteroid[0] = Asteroide.y_init;
 
 	for (int i = 0; i < 60000; i++) {
-		double tmp1 = Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroid, Planetes, Soleil);
-		//printf("%f\n", tmp1);
 		
-		double tmp =  tmp1 / Asteroid.masse * (pow((i+1),2)/2) + Asteroid.V0 * (i+1) * cos(Asteroid.theta);
+		
+		double tmp1 = Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroide, Planetes, Soleil);
+		double tmp =  tmp1 / Asteroide.masse * (pow((i+1),2)/2) + Asteroide.V0 * (i+1) * cos(Asteroide.theta);
 		coord_x_Asteroid[i + 1] = coord_x_Asteroid[i] + tmp;
 		 
-		tmp1 = Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroid, Planetes, Soleil);
-		tmp = tmp1  / Asteroid.masse * (pow((i+1),2)/2) + Asteroid.V0 * (i+1) * sin(Asteroid.theta);
+		tmp1 = Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i, Asteroide, Planetes, Soleil);
+		tmp = tmp1  / Asteroide.masse * (pow((i+1),2)/2) + Asteroide.V0 * (i+1) * sin(Asteroide.theta);
         coord_y_Asteroid[i + 1] = coord_y_Asteroid[i] + tmp;
+        
+        //if (coord_x_Asteroide[i+1] > 10000000 || coord_x_Asteroide[i+1] < 0 || coord_y_Asteroide[i+1] > 10000000 || coord_y_Asteroide[i+1] < 0) break;
+		//else ;
+		
+        printf("%f\n", coord_x_Asteroid[i + 1]);
+        
+
          }
         
         
-	fichierCSV_Asteroid("ASteroide.csv", Asteroid, coord_x_Asteroid, coord_y_Asteroid,  60000); 
+	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
         
-	
-
 	
 	return 0; 
 
