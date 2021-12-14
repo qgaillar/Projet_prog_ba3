@@ -349,7 +349,6 @@ int main(int argc, char * argv[]) {
 	Planetes[7].cos_planete = 0;
 	Planetes[7].sin_planete = 0;
 
-
 	struct Etoile Soleil;
 	Soleil.nom = "Soleil";
 	Soleil.masse = 1.989* pow(10,30);
@@ -426,7 +425,7 @@ int main(int argc, char * argv[]) {
         
 
          }
-        
+       
         
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
         
