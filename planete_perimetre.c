@@ -82,8 +82,6 @@ void coordonnees_planetes_x (double * coor_planete_x,  double centre_x, double d
 					
 		}
 	}
-	
-
 }
 
 
@@ -199,6 +197,20 @@ void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double co
 
     fclose(file);
 }
+
+
+void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
+	FILE * file = fopen(filename, "w+");
+
+	for (int i = 0; i < 8; i++) {
+	
+		fprintf(file, "%0.6f", Planetes[i].rayon_collision);    
+		fprintf(file, "\n");
+	}
+
+    fclose(file);
+}
+
 
 
 
@@ -350,8 +362,8 @@ int main(int argc, char * argv[]) {
 	Asteroide.nom = "Asteroid";
 	Asteroide.masse = pow(10, 18);
 	Asteroide.rayon = 500;
-	Asteroide.V0 = 0.00005;
-	Asteroide.theta = 45; 
+	Asteroide.V0 = 2;
+	Asteroide.theta = 0; 
 	Asteroide.x_init = 0;
 	Asteroide.y_init = 0;
 
@@ -382,6 +394,12 @@ int main(int argc, char * argv[]) {
 		coordonnees_planetes_y (Planetes[i].coord_y, centre_y, Planetes[i].demi_grand_axe, Planetes[i].demi_petit_axe, Planetes[i].iterations, Planetes[i].multiple);
 		fichierCSV(nom_fichier_csv[i], Planetes[i].coord_x, Planetes[i].coord_y, Planetes[i].iterations, Planetes[i].multiple);
 		
+	}
+
+	fichierCSV_Rayon_Collision("Rayon_planete_collision.csv", Planetes);
+
+	for (int i = 0; i < 8; i++) {
+		printf("%f\n", Planetes[i].rayon_collision);
 	}
 
 	double * coord_x_Asteroid = calloc(60000, sizeof (double));

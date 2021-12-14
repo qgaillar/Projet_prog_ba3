@@ -11,11 +11,18 @@ from asteroide_coor import *
 
 x_min, x_max = 0, 10e6
 y_min, y_max = 0, 10e6
-G = 6.7e-11                #[m^3/(kg^-1*s^-2)]
+G = 6.67*10e-11                #[m^3/(kg^-1*s^-2)]
 #x_Asteroid_init = 400000
 #y_Asteroid_init = 5*10e5
-V0 = 2 # m.s
-theta = 0 # degrès 
+V0 = 0.5 # 10e3 km.s
+
+theta_0 = 0
+theta_1 = np.pi/4
+theta_2 = np.pi/2
+theta_3 = 3*np.pi/2
+
+
+theta = theta_0 # degrès 
 
 #---initialisation de notre figure----#
 
@@ -33,29 +40,39 @@ plt.ylim([y_min, y_max])
 
 
 class Planète:
-    def __init__(self, color, nb_frame, size, coord_x, coord_y, mass):
+    def __init__(self, name, color, nb_frame, size, coord_x, coord_y, mass, cos_planete, sin_planete, rayon_collision):
+        self.name = name
         self.color = color
         self.nb_frame = nb_frame
         self.size = size
         self.coord_x = coord_x
         self.coord_y = coord_y
         self.mass = mass
+        self.cos_planete = cos_planete
+        self.sin_planete = sin_planete
+        self.rayon_collision = rayon_collision
 
 class Asteroid:
-    def __init__(self, color, size, mass):
+    def __init__(self, color, size, mass, coord_x_init, coord_y_init, coord_x, coord_y):
         self.color = color
         self.size = size
         self.mass = mass
-        #self.coord_x_init = coord_x_init
-        #self.coord_y_init = coord_y_init
+        self.coord_x_init = coord_x_init
+        self.coord_y_init = coord_y_init
+        self.coord_x = coord_x
+        self.coord_y = coord_y
 
 class Etoile:
-    def __init__(self, color, size, mass, coord_x, coord_y):
+    def __init__(self, name, color, size, mass, coord_x, coord_y, cos_etoile, sin_etoile, rayon_collision):
+        self.name = name
         self.color = color
         self.size = size
         self.coord_x = coord_x
         self.coord_y = coord_y
         self.mass = mass
+        self.cos_etoile = cos_etoile
+        self.sin_etoile = sin_etoile
+        self.rayon_collision = rayon_collision
 
 #----def coord asteroid init----#
 
@@ -69,29 +86,32 @@ while (asteroide_x_init >1000000 and asteroide_x_init < 9000000) and (asteroide_
     print("l'asteroide est trop proche des planetes, il faut prendre une valeur de y entre 0 et 100000 ou 900000 et 1000000")
     y = valeur_coor()
     asteroide_y_init = int(y)
-print("Modelisation in process...")
         
+
+
 
 #---- definitions des astres-----#
 
 
-Mercure = Planète('red', frame_Mercure, 0.2439*5, x_Mercure, y_Mercure, 33e22)
-Venus = Planète('red', frame_Venus, 0.6052*5, x_Venus, y_Venus, 490e22)
-Terre = Planète('red', frame_Terre, 0.6378*5, x_Terre, y_Terre, 600e22)
-Mars = Planète('red', frame_Mars, 0.3397*5, x_Mars, y_Mars, 64e22)
-Jupiter = Planète('red', frame_Jupiter, 7.1500, x_Jupiter, y_Jupiter, 190000e22)
-Saturne = Planète('red', frame_Saturne, 6.0300, x_Saturne, y_Saturne, 5700e22)
-Uranus = Planète('red', frame_Uranus, 2.56, x_Urnaus, y_Uranus, 8700e22)
-Neptune = Planète('red', frame_Neptune, 6, x_Neptune, y_Neptune, 10000e22) #2.48
-Soleil = Etoile('yellow', 3, 4.9985 * 10e5, 5 * 10e5,  1.989e30)
-Asteroid_crash_test = Asteroid('red', size= 5, mass= 10e18)
+Mercure = Planète('Mercure', 'blue', frame_Mercure, 6, x_Mercure, y_Mercure, 33e22, 0, 0, Rayon_collision_planete[0]) #0.2439*5
+Venus = Planète('Venus','red', frame_Venus, 0.6052*5, x_Venus, y_Venus, 490e22, 0, 0, Rayon_collision_planete[1])
+Terre = Planète('Terre','red', frame_Terre, 0.6378*5, x_Terre, y_Terre, 600e22, 0, 0, Rayon_collision_planete[2])
+Mars = Planète('Mars','red', frame_Mars, 0.3397*5, x_Mars, y_Mars, 64e22, 0, 0, Rayon_collision_planete[3])
+Jupiter = Planète('Jupiter','red', frame_Jupiter, 7.1500, x_Jupiter, y_Jupiter, 190000e22, 0, 0,Rayon_collision_planete[4])
+Saturne = Planète('Saturne', 'lime', frame_Saturne, 6.0300, x_Saturne, y_Saturne, 5700e22, 0, 0, Rayon_collision_planete[5])
+Uranus = Planète('Uranus', 'blue', frame_Uranus, 10, x_Urnaus, y_Uranus, 8700e22, 0, 0, Rayon_collision_planete[6]) #2.56
+Neptune = Planète('Neptune','green', frame_Neptune, 6, x_Neptune, y_Neptune, 10000e22, 0, 0,Rayon_collision_planete[7]) #2.48
+Soleil = Etoile('Soleil','lime', 10, x_max/2, y_max/2,  1.989e30, 0, 0, Rayon_collision_planete[8]) # x_max/2 - 1.5*10e5
+Asteroid_crash_test = Asteroid('red', 5,  10e18, asteroide_x_init, asteroide_y_init, 0, 0)
 
+list_planete = [Mercure, Venus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune]
 
 
 #---definition des plots des astres----#
 
-Mercure_plt, = plt.plot([], [], 'ko', ms = Mercure.size, mfc = Mercure.color)  #ko = pour former un cercle avec contour noir
-Venus_plt, = plt.plot([], [], 'ko', ms = Venus.size, mfc = Venus.color)
+"""
+Mercure_plt, = plt.plot([], [], 'ko', ms = Mercure.size, mfc = Mercure.color, label = 'Mercure')  #ko = pour former un cercle avec contour noir
+Venus_plt, = plt.plot([], [], 'ko', ms = Venus.size, mfc = Venus.color, label = 'Venus')
 Terre_plt, = plt.plot([], [], 'ko', ms = Terre.size, mfc = Terre.color)
 Mars_plt, = plt.plot([], [], 'ko', ms = Mars.size, mfc = Mars.color)
 Jupiter_plt, = plt.plot([], [], 'ko', ms = Jupiter.size, mfc = Jupiter.color)
@@ -99,9 +119,22 @@ Saturne_plt, = plt.plot([], [], 'ko', ms = Saturne.size, mfc = Saturne.color)
 Uranus_plt, = plt.plot([], [], 'ko', ms = Uranus.size, mfc = Uranus.color)
 Neptune_plt, = plt.plot([], [], 'ko', ms = Neptune.size, mfc = Neptune.color)
 Asteroid_crash_test_plt, = plt.plot([asteroide_x_init], [asteroide_y_init], 'ko', ms = Asteroid_crash_test.size, mfc = Asteroid_crash_test.color)
+Asteroid_line, = plt.plot([],[], color = Asteroid_crash_test.color, ls = '--', ms = 1, alpha = 0.4, label = 'Asteroid line')
 Soleil_plt, = plt.plot([Soleil.coord_x], [Soleil.coord_y], 'yo', ms = Soleil.size, mfc = Soleil.color)
+"""
+Mercure_plt, = plt.plot([], [], 'ko', ms = Mercure.size, mfc = Mercure.color, label = 'Mercure')  #ko = pour former un cercle avec contour noir
+Venus_plt, = plt.plot([], [], 'ko', ms = Venus.size, mfc = Venus.color, label = 'Venus')
+Terre_plt, = plt.plot([], [], 'ko', ms = Terre.size, mfc = Terre.color, label = 'Terre')
+Mars_plt, = plt.plot([], [], 'ko', ms = Mars.size, mfc = Mars.color, label = 'Mars')
+Jupiter_plt, = plt.plot([], [], 'ko', ms = Jupiter.size, mfc = Jupiter.color, label = 'Jupiter')
+Saturne_plt, = plt.plot([], [], 'ko', ms = Saturne.size, mfc = Saturne.color, label = 'Saturne')
+Uranus_plt, = plt.plot([], [], 'ko', ms = Uranus.size, mfc = Uranus.color, label = 'Uranus')
+Neptune_plt, = plt.plot([], [], 'ko', ms = Neptune.size, mfc = Neptune.color, label = 'Neptune')
+Asteroid_crash_test_plt, = plt.plot([], [], 'ko', ms = Asteroid_crash_test.size, mfc = Asteroid_crash_test.color, label = 'Asteroid')
+Asteroid_line, = plt.plot([],[], color = Asteroid_crash_test.color, ls = '--', ms = 1, alpha = 0.4, label = 'Asteroid line')
+Soleil_plt, = plt.plot([Soleil.coord_x], [Soleil.coord_y], 'ko', ms = Soleil.size, mfc = Soleil.color, label = 'Soleil')
 
-
+list_plot_planete = [Mercure_plt, Venus_plt, Terre_plt, Mars_plt, Jupiter_plt, Saturne_plt, Uranus_plt, Neptune_plt]
 
 
 #----calculs attraction gravitationnelle-----#
@@ -117,6 +150,9 @@ def Fg(mass_planète, x_Asteroid_crash_test, y_Asteroid_crash_test, x_planète, 
 
 def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
 
+
+    Fg_tot_x = 0
+    """
     cos_Mercure = (abs(x_Asteroid_crash_test - Mercure.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Mercure.coord_x[i])**2 + (y_Asteroid_crash_test - Mercure.coord_y[i])**2))
     cos_Venus = (abs(x_Asteroid_crash_test - Venus.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Venus.coord_x[i])**2 + (y_Asteroid_crash_test - Venus.coord_y[i])**2))
     cos_Terre = (abs(x_Asteroid_crash_test - Terre.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Terre.coord_x[i])**2 + (y_Asteroid_crash_test - Terre.coord_y[i])**2))
@@ -126,7 +162,14 @@ def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
     cos_Uranus = (abs(x_Asteroid_crash_test - Uranus.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Uranus.coord_x[i])**2 + (y_Asteroid_crash_test - Uranus.coord_y[i])**2))
     cos_Neptune = (abs(x_Asteroid_crash_test - Neptune.coord_x[i]) / np.sqrt((x_Asteroid_crash_test - Neptune.coord_x[i])**2 + (y_Asteroid_crash_test - Neptune.coord_y[i])**2))
     cos_Soleil = (abs(x_Asteroid_crash_test - Soleil.coord_x) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_x)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2))
-
+    """
+    #"""
+    for j in range(0,len(list_planete)):
+        list_planete[j].cos_planete = (abs(x_Asteroid_crash_test - list_planete[j].coord_x[i]) / np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2))
+        Fg_tot_x += Fg(list_planete[j].mass, x_Asteroid_crash_test, y_Asteroid_crash_test, list_planete[j].coord_x[i], list_planete[j].coord_y[i]) * list_planete[j].cos_planete
+    Soleil.cos_etoile = (abs(x_Asteroid_crash_test - Soleil.coord_x) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_x)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2)) 
+    Fg_tot_x += Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.cos_etoile
+    """
     Fg_tot_x = (
         Fg(Mercure.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Mercure.coord_x[i], Mercure.coord_y[i]) * cos_Mercure + #pb avec Fg qui génère 1705 valeurs d'un coup 
         Fg(Venus.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Venus.coord_x[i], Venus.coord_y[i]) * cos_Venus +
@@ -138,10 +181,19 @@ def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
         Fg(Neptune.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Neptune.coord_x[i], Neptune.coord_y[i]) * cos_Neptune +
         Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * cos_Soleil
     )
+    """
     return Fg_tot_x
 
 def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
-
+    #"""
+    Fg_tot_y = 0
+    for j in range(0,len(list_planete)):
+        list_planete[j].sin_planete = (abs(y_Asteroid_crash_test - list_planete[j].coord_y[i]) / np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2))
+        Fg_tot_y += Fg(list_planete[j].mass, x_Asteroid_crash_test, y_Asteroid_crash_test, list_planete[j].coord_x[i], list_planete[j].coord_y[i]) * list_planete[j].sin_planete
+    Soleil.sin_etoile = (abs(y_Asteroid_crash_test - Soleil.coord_y) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_y)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2))
+    Fg_tot_y += Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * Soleil.sin_etoile
+    #"""
+    """
     sin_Mercure = (abs(y_Asteroid_crash_test - Mercure.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Mercure.coord_x[i])**2 + (y_Asteroid_crash_test - Mercure.coord_y[i])**2))
     sin_Venus = (abs(y_Asteroid_crash_test - Venus.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Venus.coord_x[i])**2 + (y_Asteroid_crash_test - Venus.coord_y[i])**2))
     sin_Terre = (abs(y_Asteroid_crash_test - Terre.coord_y[i]) / np.sqrt((x_Asteroid_crash_test - Terre.coord_x[i])**2 + (y_Asteroid_crash_test - Terre.coord_y[i])**2))
@@ -164,7 +216,11 @@ def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
         Fg(Neptune.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Neptune.coord_x[i], Neptune.coord_y[i]) * sin_Neptune +
         Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * sin_Soleil
     )
+    """
     return Fg_tot_y
+
+
+#-------Calculs des coordonées de notre Asteroide-----#
 
 coord_x_Asteroid = [asteroide_x_init]
 coord_y_Asteroid = [asteroide_y_init]
@@ -184,20 +240,27 @@ def coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, j, V0, theta):
 
 coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta)
 
+Asteroid_crash_test.coord_x = coord_x_Asteroid
+Asteroid_crash_test.coord_y = coord_y_Asteroid
+
+print("Aquisition des coordonnées de notre Asteroid = ok !")
+
 def distance_asteroid_planete(x_asteroid, y_asteroid, x_planete, y_planete):
     distance_A_P = np.sqrt((x_asteroid - x_planete)**2 + (y_asteroid - y_planete)**2)
     return distance_A_P
 
-def collision(distance, rayon):
-    if distance <= rayon:
-        plt.text(600000, 8000000, 'COLLISION !', color = 'red', weigth = 'bold', fontsize = 15)
+def collision(distance, rayon, name):
+    print(distance)
+    if distance <= 500000: #normalement ici on met le rayon de collision de chaque planète
+        print("collision avec", name )
+        return plt.text(4000000, 8000000, 'Collision avec ' + name, color = 'red', fontsize = 15)
 
 
 
 #coord_x_Asteroid, coord_y_Asteroid = coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta)
 
 #----fonctions de mise en mouvement des astres-----#
-
+"""
 def animate_Mercure(i):
     Mercure_plt.set_data(Mercure.coord_x[i], Mercure.coord_y[i])
     return Mercure_plt  
@@ -258,10 +321,62 @@ anim_Uranus = animation.FuncAnimation(fig, animate_Uranus, frames = Uranus.nb_fr
 anim_Neptune = animation.FuncAnimation(fig, animate_Neptune, frames = Neptune.nb_frame ,interval = interval_time, blit = False, repeat = True)
 
 anim_Asteroid = animation.FuncAnimation(fig, animate_Asteroid, frames = len(coord_x_Asteroid) ,interval = interval_time, blit = False, repeat = True)
+"""
+
+interval_time = 1.0
+
+def run_animation():
+    anim_running = True
+
+    def onClick(event):
+        nonlocal anim_running
+        if anim_running:
+            anim.event_source.stop()
+            anim_running = False
+        else:
+            anim.event_source.start()
+            anim_running = True
+    def anim_astre(i):
+        nonlocal anim_running
+        Asteroid_crash_test_plt.set_data(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i])
+        Asteroid_line.set_data(Asteroid_crash_test.coord_x[:i], Asteroid_crash_test.coord_y[:i])
+
+        for j in range(len(list_plot_planete)):
+            list_plot_planete[j].set_data(list_planete[j].coord_x[i], list_planete[j].coord_y[i])
+            distance_A_P = distance_asteroid_planete(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i], list_planete[j].coord_x[i], list_planete[j].coord_y[i])
+            #print(distance_A_P)
+            collision(distance_A_P, list_planete[j].rayon_collision, list_planete[j].name) 
+
+        return Asteroid_crash_test_plt, Asteroid_line, list_planete                
+    
+
+    fig.canvas.mpl_connect('button_press_event', onClick)
+    anim = animation.FuncAnimation(fig, anim_astre, frames = Neptune.nb_frame ,interval = interval_time, blit = False, repeat = True)
+    #if collision == True:
+        #anim.event_source.stop()       
+
+
+print("lancment de l'Asteroid aux coordonnées: ", Asteroid_crash_test.coord_x_init,",", Asteroid_crash_test.coord_y_init, "avec un angle de ", theta, "et une vitesse initiale de ", V0)
+
+run_animation()
+
+
+
+#il faut creer le CSV des rayon de collision et les attribuer à chaque planéte
+if asteroide_x_init < 5000000:
+    plt.text(5000000, 600000, "coordonnée initiale x de notre l'Asteroid: " + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 7)
+    plt.text(5000000, 200000, "coordonnée initiale y de notre l'Asteroid: " + str(Asteroid_crash_test.coord_y_init), color = 'red', fontsize = 7)
+else:
+    plt.text(100000, 400000, 'x_0 = ' + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 7)
+    plt.text(2000000, 400000, 'y_0 = ' + str(Asteroid_crash_test.coord_y_init), color = 'red', fontsize = 7)
 
 
 
 
-
+plt.title("Asteroid trajectory simulation")
 plt.grid(alpha = 0.2)
+plt.legend()
 plt.show()
+
+
+
