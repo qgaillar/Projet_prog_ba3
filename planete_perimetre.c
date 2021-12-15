@@ -35,6 +35,7 @@ struct Asteroids {
 	double y_init;
 	double coord_x;
 	double coord_y;
+	double jours;
 };
 
 double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
@@ -108,6 +109,18 @@ double calc_rayon_collision(double perimetre, int iteration) {
 	return rayon_collision;
 }
 
+void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
+	FILE * file = fopen(filename, "w+");
+
+	for (int i = 0; i < 8; i++) {
+	
+		fprintf(file, "%0.6f", Planetes[i].rayon_collision);    
+		fprintf(file, "\n");
+	}
+
+    fclose(file);
+}
+
 double coor_ast(char* coordonnee) {
 
     double n; 
@@ -146,6 +159,15 @@ double j_ast_pause () {
 
     return n;
 }
+
+void CSV_valeur_demandees (char * filename, double x_i, double y_i, double theta_i,double v_i, double jours) {
+	FILE * file = fopen(filename, "w+");
+	
+	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i, jours);    
+
+    fclose(file);
+	
+}
 	 
 void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
 	FILE * file = fopen(filename, "w+");
@@ -159,27 +181,7 @@ void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double co
     fclose(file);
 }
 
-void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
-	FILE * file = fopen(filename, "w+");
 
-	for (int i = 0; i < 8; i++) {
-	
-		fprintf(file, "%0.6f", Planetes[i].rayon_collision);    
-		fprintf(file, "\n");
-	}
-
-    fclose(file);
-}
-
-void CSV_valeur_demandees (char * filename, double x_i, double y_i, double v_i, double theta_i, double jours) {
-	FILE * file = fopen(filename, "w+");
-	
-	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i, jours);    
-	fprintf(file, "\n");
-
-    fclose(file);
-	
-}
 
 int main(int argc, char * argv[]) {
 	
@@ -324,6 +326,7 @@ int main(int argc, char * argv[]) {
 	Asteroide.theta = 0; 
 	Asteroide.x_init = 0;
 	Asteroide.y_init = 0;
+	Asteroide.jours = 0;
 
 	double asteroide_x_init = coor_ast("x");
 	
@@ -344,8 +347,9 @@ int main(int argc, char * argv[]) {
 	Asteroide.y_init = asteroide_y_init;
 	Asteroide.theta = angle_asteroide("theta");
 	Asteroide.V0 = calcul_V_0("v_init");
+	Asteroide.jours = j_ast_pause();
 	
-	j_ast_pause();
+	 CSV_valeur_demandees("valeurs_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.theta, Asteroide.V0, Asteroide.jours); 
 
 	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Uranus.csv", "planete_Neptune.csv"};
 
@@ -371,12 +375,11 @@ int main(int argc, char * argv[]) {
 		tmp = Asteroide.V0 * (j+1) * sin(Asteroide.theta*(2*M_PI)/360);
         coord_y_Asteroid[j + 1] = coord_y_Asteroid[j] + tmp;
 
-         }
+    }
     
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
      
-    CSV_valeur_demandees("valeur_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.V0, Asteroide.theta, j_ast_pause()); 
-      	
+ 	
 	return 0; 
 
 }
