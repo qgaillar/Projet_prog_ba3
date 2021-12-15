@@ -36,7 +36,7 @@ struct Asteroids {
 	double coord_x;
 	double coord_y;
 };
-
+/*
 struct Etoile {
 	char * nom;
 	double masse;
@@ -45,7 +45,7 @@ struct Etoile {
 	double cos_etoile;
 	double sin_etoile;
 };
-
+*/
 double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
 	double b = demi_grand_axe*sqrt(1 - pow(excentricite, 2));
 	
@@ -150,7 +150,7 @@ double angle_asteroide (char* coordonnee) {
 }
 	 
 	 
-
+/*
 double Fg(double masse, double masse_asteroide, double x_Asteroid_t_reel, double y_Asteroid_t_reel, double x_planete, double y_planete){
 	double G = 6.67*pow(10, -11);
     double delta_x = x_Asteroid_t_reel - x_planete;
@@ -205,7 +205,7 @@ double Fg_totale_y(double x_Asteroid_crash_test, double y_Asteroid_crash_test, i
 	//printf("%f\n", Fg_tot_y);
 	return Fg_tot_y ;
 }
-
+*/
 
 void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
 	FILE * file = fopen(filename, "w+");
@@ -369,7 +369,7 @@ int main(int argc, char * argv[]) {
 	Planetes[7].coord_y = calloc(Planetes[7].iterations * Planetes[7].multiple, sizeof (double));
 	Planetes[7].cos_planete = 0;
 	Planetes[7].sin_planete = 0;
-
+/*
 	struct Etoile Soleil;
 	Soleil.nom = "Soleil";
 	Soleil.masse = 1.989* pow(10,30);
@@ -377,7 +377,7 @@ int main(int argc, char * argv[]) {
 	Soleil.coord_y = 5 * pow(10,5);
 	Soleil.cos_etoile = 0;
 	Soleil.sin_etoile = 0;
-
+*/
 	struct Asteroids Asteroide;
 	Asteroide.nom = "Asteroid";
 	Asteroide.masse = pow(10, 18);
@@ -429,14 +429,12 @@ int main(int argc, char * argv[]) {
 	for (int j = 0; j < 60000; j++) {
 		
 		
-		double tmp1 = Fg_totale_x(coord_x_Asteroid[j], coord_y_Asteroid[j], j, Asteroide, Planetes, Soleil);
-		double tmp =  tmp1 / Asteroide.masse * (pow((j+1),2)/2) + Asteroide.V0 * (j+1) * cos(Asteroide.theta*(2*M_PI)/360);
+		double tmp = Asteroide.V0 * (j+1) * cos(Asteroide.theta*(2*M_PI)/360);
 		//printf("%f\n", tmp);
 		//double reste = Asteroide.V0 * (i+1) * cos(Asteroide.theta*360/(2*M_PI));
 		coord_x_Asteroid[j + 1] = coord_x_Asteroid[j] + tmp;
 		 
-		tmp1 = Fg_totale_y(coord_x_Asteroid[j], coord_y_Asteroid[j], j, Asteroide, Planetes, Soleil);
-		tmp = tmp1  / Asteroide.masse * (pow((j+1),2)/2) + Asteroide.V0 * (j+1) * sin(Asteroide.theta*(2*M_PI)/360);
+		tmp = Asteroide.V0 * (j+1) * sin(Asteroide.theta*(2*M_PI)/360);
 		//reste = Asteroide.V0 * (i+1) * sin(Asteroide.theta*360/(2*M_PI));
         coord_y_Asteroid[j + 1] = coord_y_Asteroid[j] + tmp;
         
