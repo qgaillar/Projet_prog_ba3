@@ -363,24 +363,24 @@ int main(int argc, char * argv[]) {
 
 	fichierCSV_Rayon_Collision("Rayon_planete_collision.csv", Planetes);
 
-	double * coord_x_Asteroid = calloc(20000, sizeof (double));
-	double * coord_y_Asteroid = calloc(20000, sizeof (double));
+	double * coord_x_Asteroid = calloc(60000, sizeof (double));
+	double * coord_y_Asteroid = calloc(60000, sizeof (double));
 
 	coord_x_Asteroid[0] = Asteroide.x_init;
 	coord_y_Asteroid[0] = Asteroide.y_init;
 
-	for (int j = 0; j < 20000; j++) {
-		if (coord_x_Asteroid[j] > pow(10, 7) || coord_x_Asteroid[j] > pow(10, 7)) {
+	for (int j = 0; j < 60000; j++) {
+		if (coord_x_Asteroid[j] > pow(10, 7) || coord_y_Asteroid[j] > pow(10, 7) || coord_x_Asteroid[j] < 0 || coord_y_Asteroid[j] < 0 ) {
 			coord_x_Asteroid[j+1] = coord_x_Asteroid[j]; 
 			coord_y_Asteroid[j+1] = coord_y_Asteroid[j];
-			printf("%f\n", coord_x_Asteroid[j+1]);
+			
 		}
 		else {
 			double tmp = Asteroide.V0 * (j+1) * cos(Asteroide.theta*(2*M_PI)/360);
 			coord_x_Asteroid[j + 1] = coord_x_Asteroid[j] + tmp;
 			tmp = Asteroide.V0 * (j+1) * sin(Asteroide.theta*(2*M_PI)/360);
 			coord_y_Asteroid[j + 1] = coord_y_Asteroid[j] + tmp;
-			printf("%f\n", coord_x_Asteroid[j+1]);
+			
 		}
         
 
