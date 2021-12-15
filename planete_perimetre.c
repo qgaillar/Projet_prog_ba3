@@ -349,6 +349,7 @@ int main(int argc, char * argv[]) {
 	Asteroide.V0 = calcul_V_0("v_init");
 	Asteroide.jours = j_ast_pause();
 	
+	
 	 CSV_valeur_demandees("valeurs_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.theta, Asteroide.V0, Asteroide.jours); 
 
 	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Uranus.csv", "planete_Neptune.csv"};
