@@ -136,6 +136,16 @@ double angle_asteroide (char* coordonnee) {
 
     return n;
 }
+
+double j_ast_pause () {
+	
+	double n; 
+    
+	printf("Entrer un nombre de jours avant le lancement de l'asteroide :");     
+    scanf(" %lf", &n);
+
+    return n;
+}
 	 
 void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
 	FILE * file = fopen(filename, "w+");
@@ -161,10 +171,10 @@ void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
     fclose(file);
 }
 
-void CSV_valeur_demandees (char * filename, double x_i, double y_i, double v_i, double theta_i) {
+void CSV_valeur_demandees (char * filename, double x_i, double y_i, double v_i, double theta_i, double jours) {
 	FILE * file = fopen(filename, "w+");
 	
-	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i);    
+	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i, jours);    
 	fprintf(file, "\n");
 
     fclose(file);
@@ -334,6 +344,8 @@ int main(int argc, char * argv[]) {
 	Asteroide.y_init = asteroide_y_init;
 	Asteroide.theta = angle_asteroide("theta");
 	Asteroide.V0 = calcul_V_0("v_init");
+	
+	j_ast_pause();
 
 	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Uranus.csv", "planete_Neptune.csv"};
 
@@ -363,7 +375,7 @@ int main(int argc, char * argv[]) {
     
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
      
-    CSV_valeur_demandees("valeur_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.V0, Asteroide.theta); 
+    CSV_valeur_demandees("valeur_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.V0, Asteroide.theta, j_ast_pause()); 
       	
 	return 0; 
 
