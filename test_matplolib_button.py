@@ -78,34 +78,25 @@ class Etoile:
 
 #----def coord asteroid init----#
 
-x = valeur_coor ()   
-y = valeur_coor ()
 
-asteroide_x_init = int(x)
-asteroide_y_init = int(y)
-
-while (asteroide_x_init >1000000 and asteroide_x_init < 9000000) and (asteroide_y_init > 1000000 and asteroide_y_init < 9000000 != True):
-    print("l'asteroide est trop proche des planetes, il faut prendre une valeur de y entre 0 et 100000 ou 900000 et 1000000")
-    y = valeur_coor()
-    asteroide_y_init = int(y)
-        
-theta = float(input('saisissez un angle de depart: '))
-theta = theta * 2 * np.pi/360
-V0 = float(input("vitesse initiale de l'asteroide [10^6km/j]: "))
-t = int(input("Nombre de jours avant que l'Asteroid se lance: "))
+asteroide_x_init = x_Asteroid_init
+asteroide_y_init = y_Asteroid_init       
+theta = angle_init * 2 * np.pi/360
+V0 = V0_init
+t = nb_jour_lancement_init
 
 #---- definitions des astres-----#
 
 
-Mercure = Planète('Mercure', 'blue', frame_Mercure, 6, x_Mercure, y_Mercure, 33e22, 0, 0, Rayon_collision_planete[0]) #0.2439*5
-Venus = Planète('Venus','red', frame_Venus, 0.6052*5, x_Venus, y_Venus, 490e22, 0, 0, Rayon_collision_planete[1])
-Terre = Planète('Terre','red', frame_Terre, 0.6378*5, x_Terre, y_Terre, 600e22, 0, 0, Rayon_collision_planete[2])
+Mercure = Planète('Mercure', 'blue', frame_Mercure, 1, x_Mercure, y_Mercure, 33e22, 0, 0, Rayon_collision_planete[0]) #0.2439*5
+Venus = Planète('Venus','red', frame_Venus, 0.6052*3, x_Venus, y_Venus, 490e22, 0, 0, Rayon_collision_planete[1])
+Terre = Planète('Terre','red', frame_Terre, 0.6378*3, x_Terre, y_Terre, 600e22, 0, 0, Rayon_collision_planete[2])
 Mars = Planète('Mars','red', frame_Mars, 0.3397*5, x_Mars, y_Mars, 64e22, 0, 0, Rayon_collision_planete[3])
 Jupiter = Planète('Jupiter','red', frame_Jupiter, 7.1500, x_Jupiter, y_Jupiter, 190000e22, 0, 0,Rayon_collision_planete[4])
 Saturne = Planète('Saturne', 'lime', frame_Saturne, 6.0300, x_Saturne, y_Saturne, 5700e22, 0, 0, Rayon_collision_planete[5])
 Uranus = Planète('Uranus', 'blue', frame_Uranus, 10, x_Urnaus, y_Uranus, 8700e22, 0, 0, Rayon_collision_planete[6]) #2.56
 Neptune = Planète('Neptune','green', frame_Neptune, 6, x_Neptune, y_Neptune, 10000e22, 0, 0,Rayon_collision_planete[7]) #2.48
-Soleil = Etoile('Soleil','lime', 10, x_max/2, y_max/2,  1.989e30, 0, 0, Rayon_collision_planete[8]) # x_max/2 - 1.5*10e5
+Soleil = Etoile('Soleil','yellow', 3, x_max/2, y_max/2,  1.989e30, 0, 0, Rayon_collision_planete[8]) # x_max/2 - 1.5*10e5
 Asteroid_crash_test = Asteroid('red', 5,  10e18, asteroide_x_init, asteroide_y_init, 0, 0, V0)
 Asteroide_w_a = Asteroid('red', 5,  10e18, asteroide_x_init, asteroide_y_init, x_Asteroide_w_a, y_Asteroide_w_a, V0)
 
@@ -137,8 +128,8 @@ Uranus_plt, = plt.plot([], [], 'ko', ms = Uranus.size, mfc = Uranus.color, label
 Neptune_plt, = plt.plot([], [], 'ko', ms = Neptune.size, mfc = Neptune.color, label = 'Neptune')
 Asteroid_crash_test_plt, = plt.plot([], [], 'ko', ms = Asteroid_crash_test.size, mfc = Asteroid_crash_test.color, label = 'Asteroid')
 Asteroid_line, = plt.plot([],[], color = Asteroid_crash_test.color, ls = '--', ms = 1, alpha = 0.5, label = 'Asteroid line')
-Soleil_plt, = plt.plot([Soleil.coord_x], [Soleil.coord_y], 'ko', ms = Soleil.size, mfc = Soleil.color, label = 'Soleil')
-Asteroid_w_a_line, = plt.plot(x_Asteroide_w_a, y_Asteroide_w_a, color = "white", ls = '--', ms = 1, alpha = 0.3, label = 'Asteroid line (without attraction)')
+Soleil_plt, = plt.plot([x_max/2 - 1500], [y_max/2], 'ko', ms = Soleil.size, mfc = Soleil.color, label = 'Soleil')
+Asteroid_w_a_line_plt, = plt.plot(x_Asteroide_w_a, y_Asteroide_w_a, color = "grey", ls = '--', ms = 1, alpha = 0.3, label = 'Asteroid line (without attraction)')
 
 
 list_plot_planete = [Mercure_plt, Venus_plt, Terre_plt, Mars_plt, Jupiter_plt, Saturne_plt, Uranus_plt, Neptune_plt]
@@ -200,7 +191,7 @@ def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
         Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * cos_Soleil
     )
     """
-    return Fg_tot_x
+    return Fg_tot_x * 10e-1
 
 def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
     #"""
@@ -235,7 +226,7 @@ def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
         Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) * sin_Soleil
     )
     """
-    return Fg_tot_y
+    return Fg_tot_y * 10e-1
 
 
 #-------Calculs des coordonées de notre Asteroide-----#
@@ -262,8 +253,9 @@ def coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, j, V0, theta, t):
 
     return np.array(coord_x_Asteroid), np.array(coord_y_Asteroid)
 
+nb_coord_asteroid_cree = 60000
 
-coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta, t)
+coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, nb_coord_asteroid_cree, V0, theta, t)
 
 Asteroid_crash_test.coord_x = coord_x_Asteroid 
 Asteroid_crash_test.coord_y = coord_y_Asteroid
@@ -275,7 +267,7 @@ def distance_asteroid_planete(x_asteroid, y_asteroid, x_planete, y_planete):
     return distance_A_P
 
 def collision(distance, rayon, name, anim):
-    if distance <= 250000: #normalement ici on met le rayon de collision de chaque planète
+    if distance <= (rayon * 100): #normalement ici on met le rayon de collision de chaque planète
         print("collision avec", name)
         plt.text(4000000, 8000000, 'Collision avec ' + name, color = 'red', fontsize = 15)
         return anim.event_source.stop()
@@ -355,7 +347,9 @@ anim_Asteroid = animation.FuncAnimation(fig, animate_Asteroid, frames = len(coor
 
 interval_time = 1.0
 
+
 def run_animation():
+
     anim_running = True
 
     def onClick(event):
@@ -370,57 +364,32 @@ def run_animation():
         nonlocal anim_running
         Asteroid_crash_test_plt.set_data(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i])
         Asteroid_line.set_data(Asteroid_crash_test.coord_x[:i], Asteroid_crash_test.coord_y[:i])
-
         for j in range(len(list_plot_planete)):
             list_plot_planete[j].set_data(list_planete[j].coord_x[i], list_planete[j].coord_y[i])
             distance_A_P = distance_asteroid_planete(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i], list_planete[j].coord_x[i], list_planete[j].coord_y[i])
             collision(distance_A_P, list_planete[j].rayon_collision, list_planete[j].name, anim) 
-            exit_solar_syst(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i], anim)
-            #print(distance_A_P)
+            exit_solar_syst(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i], anim)  
         return Asteroid_crash_test_plt, Asteroid_line, list_planete                
     
 
     fig.canvas.mpl_connect('button_press_event', onClick)
     anim = animation.FuncAnimation(fig, anim_astre, frames = Neptune.nb_frame ,interval = interval_time, blit = False, repeat = True)
-    #if collision == True:
-        #anim.event_source.stop()       
+    
 
-
-#print("lancment de l'Asteroid aux coordonnées: ", Asteroid_crash_test.coord_x_init,",", Asteroid_crash_test.coord_y_init, "avec un angle de ", theta, "et une vitesse initiale de ", V0)
-
-"""
-class Index(object):
-
-    def lunch_animation(self, event):
-        run_animation()
-
-callback = Index()
-axnext = plt.axes([0.1, 0.05, 0.1, 0.075])
-bnext = Button(axnext, 'Animate')
-bnext.on_clicked(callback.lunch_animation)
-"""
-
-
-#plt.subplots_adjust(left = 0.25, bottom = 0.25)
-#lunch_animation = plt.axes([0.8, 0.025, 0.1, 0.04])
-#button = Button(lunch_animation, 'Animate', hovercolor='0.975')
-
-#run_animation()
-#animation_astreroid = run_animation()
 
 run_animation()
 
+
 """
-for a in range(0, 60000):
-    for b in range(0, len(list_planete)):
-        distance_A_P = distance_asteroid_planete(Asteroid_crash_test.coord_x[a], Asteroid_crash_test.coord_y[a], list_planete[b].coord_x[a], list_planete[b].coord_y[a])
-"""        
+for i in range(0, nb_coord_asteroid_cree):
+        for j in range(0, len(list_planete)):
+              
+"""
 
 
 
 
 
-#il faut creer le CSV des rayon de collision et les attribuer à chaque planéte
 if asteroide_x_init < 5000000:
     plt.text(5000000, 600000, "coordonnée initiale x de notre l'Asteroid: " + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 7)
     plt.text(5000000, 200000, "coordonnée initiale y de notre l'Asteroid: " + str(Asteroid_crash_test.coord_y_init), color = 'red', fontsize = 7)
@@ -457,7 +426,5 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height])
 # Put a legend below current axis
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
 
-
-plt.show()
 
 plt.show()
