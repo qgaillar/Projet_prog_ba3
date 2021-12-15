@@ -33,6 +33,7 @@ print(Rayon_collision_planete)
 
 #print(len(Rayon_collision_planete))
 
+données_initiales_Asteroid = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/valeur_init.csv', delimiter = ',', dtype = None)
 
 
 
