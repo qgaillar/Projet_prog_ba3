@@ -31,6 +31,6 @@ def valeur_coor():
     while valeur_int < 0 or valeur_int >10000000 :
         print("La valeur n'est pas dans notre plot  ")
         valeur_int = int(input("Mettez un nombre entre 0 et 10000000  "))
-    print(valeur_int)
     return valeur_int
 
+    
