@@ -29,8 +29,8 @@ struct Asteroids {
 	char* nom;
 	double masse;
 	double rayon;
-	double V0;  //vitesse initiale de notre asteroid
-	double theta; //angle initiale de direction asteroid, en °
+	double v_x;  //vitesse initiale de notre asteroid
+	double v_y; 
 	double x_init;
 	double y_init;
 	double coord_x;
@@ -134,17 +134,7 @@ double coor_ast(char* coordonnee) {
 double calcul_V_0(char* coordonnee) {
 	double n;
 	 
-	printf("Entrer une vitesse %s superieure a 0 :", coordonnee);     
-    scanf(" %lf", &n);
-
-    return n;
-}
-
-double angle_asteroide (char* coordonnee) {
-
-    double n; 
-    
-	printf("Entrer un angle %s pour l'asteroide compris entre 0 et 360 :", coordonnee);     
+	printf("Entrer une vitesse %s comprise entre -5 et 5 :", coordonnee);     
     scanf(" %lf", &n);
 
     return n;
@@ -322,8 +312,8 @@ int main(int argc, char * argv[]) {
 	Asteroide.nom = "Asteroid";
 	Asteroide.masse = pow(10, 18);
 	Asteroide.rayon = 500;
-	Asteroide.V0 = 0;
-	Asteroide.theta = 0; 
+	Asteroide.v_x = 0;
+	Asteroide.v_y = 0; 
 	Asteroide.x_init = 0;
 	Asteroide.y_init = 0;
 	Asteroide.jours = 0;
@@ -345,12 +335,12 @@ int main(int argc, char * argv[]) {
 	
 	Asteroide.x_init = asteroide_x_init;
 	Asteroide.y_init = asteroide_y_init;
-	Asteroide.theta = angle_asteroide("theta");
-	Asteroide.V0 = calcul_V_0("v_init");
+	Asteroide.v_x = calcul_V_0("v_x_init");
+	Asteroide.v_y = calcul_V_0("v_y_init");
 	Asteroide.jours = j_ast_pause();
 	
 	
-	 CSV_valeur_demandees("valeurs_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.theta, Asteroide.V0, Asteroide.jours); 
+	 CSV_valeur_demandees("valeurs_init.csv", Asteroide.x_init, Asteroide.y_init, Asteroide.v_x, Asteroide.v_y, Asteroide.jours); 
 
 	char * nom_fichier_csv[] = {"planete_Mercure.csv", "planete_Venus.csv", "planete_Terre.csv", "planete_Mars.csv", "planete_Jupiter.csv", "planete_Saturne.csv", "planete_Uranus.csv", "planete_Neptune.csv"};
 
@@ -376,9 +366,9 @@ int main(int argc, char * argv[]) {
 			
 		}
 		else {
-			double tmp = Asteroide.V0 * (j+1) * cos(Asteroide.theta*(2*M_PI)/360);
+			double tmp = Asteroide.v_x * (j+1) ;
 			coord_x_Asteroid[j + 1] = coord_x_Asteroid[j] + tmp;
-			tmp = Asteroide.V0 * (j+1) * sin(Asteroide.theta*(2*M_PI)/360);
+			tmp = Asteroide.v_y * (j+1);
 			coord_y_Asteroid[j + 1] = coord_y_Asteroid[j] + tmp;
 			
 		}
