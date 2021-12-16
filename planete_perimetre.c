@@ -207,7 +207,7 @@ int main(int argc, char * argv[]) {
 	Planetes[0].vitesse_planete = 175.936;
 	Planetes[0].iterations = calc_nb_iterations_selon_planete(Planetes[0].perimetre, Planetes[0].vitesse_planete);
 	Planetes[0].multiple = 732.0;
-	Planetes[0].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[0].demi_grand_axe, Planetes[0].demi_petit_axe), Planetes[0].iterations);
+	Planetes[0].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[0].demi_grand_axe, Planetes[0].demi_petit_axe), Planetes[0].iterations)/10;
 	Planetes[0].coord_x = calloc(Planetes[0].iterations * Planetes[0].multiple, sizeof (double));;
 	Planetes[0].coord_y = calloc(Planetes[0].iterations * Planetes[0].multiple, sizeof (double));;
 	Planetes[0].cos_planete = 0;
@@ -222,7 +222,7 @@ int main(int argc, char * argv[]) {
 	Planetes[1].vitesse_planete = 126.062;
 	Planetes[1].iterations = calc_nb_iterations_selon_planete(Planetes[1].perimetre, Planetes[1].vitesse_planete);
 	Planetes[1].multiple = 274.0;
-	Planetes[1].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[1].demi_grand_axe, Planetes[1].demi_petit_axe), Planetes[1].iterations);
+	Planetes[1].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[1].demi_grand_axe, Planetes[1].demi_petit_axe), Planetes[1].iterations)/10;
 	Planetes[1].coord_x = calloc(Planetes[1].iterations * Planetes[1].multiple, sizeof (double));
 	Planetes[1].coord_y = calloc(Planetes[1].iterations * Planetes[1].multiple, sizeof (double));
 	Planetes[1].cos_planete = 0;
@@ -237,7 +237,7 @@ int main(int argc, char * argv[]) {
 	Planetes[2].vitesse_planete = 107.243;
 	Planetes[2].iterations = calc_nb_iterations_selon_planete(Planetes[2].perimetre, Planetes[2].vitesse_planete);
 	Planetes[2].multiple = 164.0;
-	Planetes[2].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[2].demi_grand_axe, Planetes[2].demi_petit_axe), Planetes[2].iterations);
+	Planetes[2].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[2].demi_grand_axe, Planetes[2].demi_petit_axe), Planetes[2].iterations)/10;
 	Planetes[2].coord_x = calloc(Planetes[2].iterations * Planetes[2].multiple, sizeof (double));
 	Planetes[2].coord_y = calloc(Planetes[2].iterations * Planetes[2].multiple, sizeof (double));
 	Planetes[2].cos_planete = 0;
@@ -252,7 +252,7 @@ int main(int argc, char * argv[]) {
 	Planetes[3].vitesse_planete = 87.226;
 	Planetes[3].iterations = calc_nb_iterations_selon_planete(Planetes[3].perimetre, Planetes[3].vitesse_planete);
 	Planetes[3].multiple = 88.0;
-	Planetes[3].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[3].demi_grand_axe, Planetes[3].demi_petit_axe), Planetes[3].iterations);
+	Planetes[3].rayon_collision = calc_rayon_collision(calc_perimetre(Planetes[3].demi_grand_axe, Planetes[3].demi_petit_axe), Planetes[3].iterations)/10;
 	Planetes[3].coord_x = calloc(Planetes[3].iterations * Planetes[3].multiple, sizeof (double));
 	Planetes[3].coord_y = calloc(Planetes[3].iterations * Planetes[3].multiple, sizeof (double));;
 	Planetes[3].cos_planete = 0;
