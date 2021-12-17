@@ -28,16 +28,16 @@ Asteroide_w_a, x_Asteroide_w_a, y_Asteroide_w_a, frame_Asteroide_w_a = planètes
 print("Aquisiton des coordonnées de planètes = ok !")
 
 Rayon_collision_planete = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/Rayon_planete_collision.csv', delimiter = ',', dtype = None)
-Rayon_collision_planete = np.append(Rayon_collision_planete, 1000) #dernier rayon = rayon arbitraire pour le soleil
+Rayon_collision_planete = np.append(Rayon_collision_planete, 100) #dernier rayon = rayon arbitraire pour le soleil
 
 
 #print(len(Rayon_collision_planete))
 
-données_initiales_Asteroid = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/valeur_init.csv', delimiter = ',', dtype = None)
+données_initiales_Asteroid = np.genfromtxt('/Users/quentingaillard/Documents/EPFL/BA3/PROGRAMMATION/Projet_gros/valeurs_init.csv', delimiter = ',', dtype = None)
 x_Asteroid_init = données_initiales_Asteroid[0]
 y_Asteroid_init = données_initiales_Asteroid[1]
-angle_init = données_initiales_Asteroid[2]
-V0_init = données_initiales_Asteroid[3]
+vitesse_x_Asteroid = données_initiales_Asteroid[2]
+vitesse_y_Asteroid = données_initiales_Asteroid[3]
 nb_jour_lancement_init = int(données_initiales_Asteroid[4])
 
 
