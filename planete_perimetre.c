@@ -90,7 +90,7 @@ void coordonnees_planetes_y (double * coor_planete_y, double centre_y, double de
 
 void fichierCSV ( char* filename, double * coor_x_planete, double * coor_y_planete, int iterations, int multiple) {
 	FILE * file = fopen(filename, "w+");
-	
+	//cette focntion créée un fichier CSV avec les coordonnées x et y des planètes afon de les exploiter en python
 	
 	for (int j = 0; j < multiple; j++) {
 		for (int i = 0; i < iterations; i++) {
@@ -104,6 +104,7 @@ void fichierCSV ( char* filename, double * coor_x_planete, double * coor_y_plane
 }
 
 double calc_rayon_collision(double perimetre, int iteration) {
+	// calcule le rayon de collision pour simuler la distance à laquelle l'astéroide va obligatoirement rentré dans la trajectoire de la planète
 	double rayon_collision = perimetre / (double) (iteration * 2);
 	
 	return rayon_collision;
@@ -373,7 +374,6 @@ int main(int argc, char * argv[]) {
 			
 		}
         
-
     }
     
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
