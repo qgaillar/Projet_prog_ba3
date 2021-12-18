@@ -68,8 +68,8 @@ double calc_nb_iterations_selon_planete (double perimetre, double v_planete) {
 	int t_revolution = (perimetre / v_planete)/24; 
 	
 	// cette fonction calcule le temps de révolution de chaque planète en fonction des périmètres que nous avons calculé.
-	// (qui eux aussi ne sont pas les vrais temps de révolution à cause de l'approximation du périmètre 
-	// la division entière sert à obtenir un nombre entier pour réaliser les itérations par rapport à 2*pi)
+	// (qui eux aussi ne sont pas les vrais temps de révolution à cause de l'approximation du périmètre) 
+	// la division entière sert à obtenir un nombre entier pour réaliser les itérations par rapport à 2*pi
 
 	return t_revolution;
 }
@@ -142,7 +142,6 @@ void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
 }
 
 double coor_ast(char* coordonnee) {
-
     double n; 
     
 	printf("Entrer une coordonnee %s entre 0 et 10^7:", coordonnee);     
@@ -160,9 +159,7 @@ double calcul_V_0(char* coordonnee) {
     return n;
 }
 
-double j_ast_pause () {
-
-	
+double j_ast_pause () {	
 	double n; 
     
 	printf("Entrer un nombre de jours avant le lancement de l'asteroide :");     
@@ -405,8 +402,7 @@ int main(int argc, char * argv[]) {
     }
     
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
-     
- 	
+     	
 	return 0; 
 
 }
