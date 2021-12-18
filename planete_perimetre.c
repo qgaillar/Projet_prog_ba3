@@ -171,13 +171,13 @@ double j_ast_pause () {
     return n;
 }
 
-void CSV_valeur_demandees (char * filename, double x_i, double y_i, double theta_i,double v_i, double jours) {
+void CSV_valeur_demandees (char * filename, double x_i, double y_i, double v_x,double v_y, double jours) {
 
 	//ce fichier CSV stocke toutes les valeurs initiales de la simulation rentrées par l'utilisateur
 
 	FILE * file = fopen(filename, "w+");
 	
-	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i, jours);    
+	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, v_x, v_y, jours);    
 
     fclose(file);
 	
