@@ -1,4 +1,7 @@
 
+
+/*----importation des modules nécessaires----*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +10,9 @@
 #include <math.h>
 #define TRUE 1
 #define FALSE 0
+
+
+/*----définition des différentes structures----*/
 
 struct Planete {
 	char* nom;
@@ -29,14 +35,18 @@ struct Asteroids {
 	char* nom;
 	double masse;
 	double rayon;
-	double v_x;  //vitesse initiale de notre asteroid
-	double v_y; 
+	double v_x;  //vitesse initiale de notre asteroid selon l'axe x
+	double v_y;  //vitesse initiale de notre asteroid selon l'axe y
 	double x_init;
 	double y_init;
 	double coord_x;
 	double coord_y;
 	double jours;
 };
+
+
+/*----défintion des différentes fonctions----*/
+
 
 double calc_demi_petit_axe (double demi_grand_axe, double excentricite) {
 	double b = demi_grand_axe*sqrt(1 - pow(excentricite, 2));
@@ -57,8 +67,9 @@ double calc_perimetre (double demi_grand_axe, double demi_petit_axe) {
 double calc_nb_iterations_selon_planete (double perimetre, double v_planete) {
 	int t_revolution = (perimetre / v_planete)/24; 
 	
-	// pour avoir des jours (qui eux aussi ne sont pas les vrais temps de révolution à cause de l'approximation du périmètre 
-	// et du fait qu'il nous faut un nombre entier pour faire des itérations par rapport à 2*pi)
+	// cette fonction calcule le temps de révolution de chaque planète en fonction des périmètres que nous avons calculé.
+	// (qui eux aussi ne sont pas les vrais temps de révolution à cause de l'approximation du périmètre 
+	// la division entière sert à obtenir un nombre entier pour réaliser les itérations par rapport à 2*pi)
 
 	return t_revolution;
 }
@@ -89,8 +100,10 @@ void coordonnees_planetes_y (double * coor_planete_y, double centre_y, double de
 }
 
 void fichierCSV ( char* filename, double * coor_x_planete, double * coor_y_planete, int iterations, int multiple) {
+
+	//ce fichier CSV stocke toutes les coordonnées x et y de nos planètes
+
 	FILE * file = fopen(filename, "w+");
-	//cette focntion créée un fichier CSV avec les coordonnées x et y des planètes afon de les exploiter en python
 	
 	for (int j = 0; j < multiple; j++) {
 		for (int i = 0; i < iterations; i++) {
@@ -104,13 +117,19 @@ void fichierCSV ( char* filename, double * coor_x_planete, double * coor_y_plane
 }
 
 double calc_rayon_collision(double perimetre, int iteration) {
-	// calcule le rayon de collision pour simuler la distance à laquelle l'astéroide va obligatoirement rentré dans la trajectoire de la planète
+
+	// calcule le rayon de collision pour simuler la distance à laquelle on assume que l'astéroide va rentrer en contact avec la planète
+	// ces rayons sont calculés en fonction du nombre d'itérations de chaque planète 
+
 	double rayon_collision = perimetre / (double) (iteration * 2);
 	
 	return rayon_collision;
 }
 
 void fichierCSV_Rayon_Collision( char* filename, struct Planete *Planetes) {
+
+	//ce fichier CSV stocke le rayon de collision de chaque planète
+
 	FILE * file = fopen(filename, "w+");
 
 	for (int i = 0; i < 8; i++) {
@@ -135,13 +154,14 @@ double coor_ast(char* coordonnee) {
 double calcul_V_0(char* coordonnee) {
 	double n;
 	 
-	printf("Entrer une vitesse %s comprise entre -5 et 5 :", coordonnee);     
+	printf("Entrer une vitesse %s comprise entre - 2000 et 2000 :", coordonnee);     
     scanf(" %lf", &n);
 
     return n;
 }
 
 double j_ast_pause () {
+
 	
 	double n; 
     
@@ -152,6 +172,9 @@ double j_ast_pause () {
 }
 
 void CSV_valeur_demandees (char * filename, double x_i, double y_i, double theta_i,double v_i, double jours) {
+
+	//ce fichier CSV stocke toutes les valeurs initiales de la simulation rentrées par l'utilisateur
+
 	FILE * file = fopen(filename, "w+");
 	
 	fprintf(file, "%0.6f, %0.6f, %0.6f, %0.6f, %0.6f", x_i, y_i, theta_i, v_i, jours);    
@@ -161,6 +184,9 @@ void CSV_valeur_demandees (char * filename, double x_i, double y_i, double theta
 }
 	 
 void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double coord_x_Asteroid[], double coord_y_Asteroid[], int j) {
+
+	//ce fichier CSV stocke les coordonnées de l'asteroïde non impacté par l'attraction gravitationnelle 
+
 	FILE * file = fopen(filename, "w+");
 
 	for (int i = 0; i < j; i++) {
@@ -173,6 +199,8 @@ void fichierCSV_Asteroid ( char* filename, struct Asteroids Asteroide, double co
 }
 
 
+
+/*----main de notre code----*/
 
 int main(int argc, char * argv[]) {
 	

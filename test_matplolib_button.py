@@ -201,11 +201,13 @@ def Fg_totale_x(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
    
     for j in range(0,len(list_planete)):
         Fg_x, Fg_y = Fg(list_planete[j].mass, x_Asteroid_crash_test, y_Asteroid_crash_test, list_planete[j].coord_x[i], list_planete[j].coord_y[i])
-        list_planete[j].cos_planete = (x_Asteroid_crash_test - list_planete[j].coord_x[i]) / np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2)
-        Fg_tot_x += Fg_x * list_planete[j].cos_planete
-    Soleil.cos_etoile = (x_Asteroid_crash_test - Soleil.coord_x) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_x)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2)
+        #adj = (x_Asteroid_crash_test - list_planete[j].coord_x[i])
+        #hyp = np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2)
+        #list_planete[j].cos_planete = adj / hyp
+        Fg_tot_x += Fg_x                                #* list_planete[j].cos_planete
+    #Soleil.cos_etoile = (x_Asteroid_crash_test - Soleil.coord_x) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_x)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2)
     Fg_x_soleil, Fg_y_soleil = Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) 
-    Fg_tot_x += Fg_x_soleil * Soleil.cos_etoile
+    Fg_tot_x += Fg_x_soleil                             #* Soleil.cos_etoile
     return Fg_tot_x
 
 def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
@@ -214,11 +216,13 @@ def Fg_totale_y(x_Asteroid_crash_test, y_Asteroid_crash_test, i):
 
     for j in range(0,len(list_planete)):
         Fg_x, Fg_y = Fg(list_planete[j].mass, x_Asteroid_crash_test, y_Asteroid_crash_test, list_planete[j].coord_x[i], list_planete[j].coord_y[i])
-        list_planete[j].sin_planete = (y_Asteroid_crash_test - list_planete[j].coord_y[i]) / np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2)
-        Fg_tot_y += Fg_y * list_planete[j].sin_planete
-    Soleil.sin_etoile = (y_Asteroid_crash_test - Soleil.coord_y) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_y)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2)
+        #op = (y_Asteroid_crash_test - list_planete[j].coord_y[i])
+        #hyp = np.sqrt((x_Asteroid_crash_test - list_planete[j].coord_x[i])**2 + (y_Asteroid_crash_test - list_planete[j].coord_y[i])**2)
+        #list_planete[j].sin_planete = op / hyp 
+        Fg_tot_y += Fg_y                            #* list_planete[j].sin_planete
+    #Soleil.sin_etoile = (y_Asteroid_crash_test - Soleil.coord_y) / np.sqrt((x_Asteroid_crash_test - Soleil.coord_y)**2 + (y_Asteroid_crash_test - Soleil.coord_y)**2)
     Fg_x_soleil, Fg_y_soleil = Fg(Soleil.mass, x_Asteroid_crash_test, y_Asteroid_crash_test, Soleil.coord_x, Soleil.coord_y) 
-    Fg_tot_y += Fg_y_soleil * Soleil.sin_etoile
+    Fg_tot_y += Fg_y_soleil                         #* Soleil.sin_etoile
     
     return Fg_tot_y
 
@@ -248,8 +252,8 @@ def coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, j, t):
         #Asteroid_vitesse_x = (Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (i+1) + condition_vitesse_initiale_x
         #Asteroid_vitesse_y = (Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (i+1) + condition_vitesse_initiale_y
 
-        Asteroid_position_x = ((Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * ((i+1)**2/2)) + condition_vitesse_initiale_x * (i+1) + coord_x_Asteroid[0]                                                    #+ Asteroid_vitesse_x * (i+1) + coord_x_Asteroid[i] 
-        Asteroid_position_y = ((Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * ((i+1)**2/2)) + condition_vitesse_initiale_y * (i+1) + coord_y_Asteroid[0]                                                      #+ Asteroid_vitesse_y * (i+1) + coord_y_Asteroid[i] 
+        Asteroid_position_x = ((Fg_totale_x(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (((i-t)+1)**2/2)) + condition_vitesse_initiale_x * ((i-t)+1) + coord_x_Asteroid[0]                                                    #+ Asteroid_vitesse_x * (i+1) + coord_x_Asteroid[i] 
+        Asteroid_position_y = ((Fg_totale_y(coord_x_Asteroid[i], coord_y_Asteroid[i], i)) / Asteroid_crash_test.mass * (((i-t)+1)**2/2)) + condition_vitesse_initiale_y * ((i-t)+1) + coord_y_Asteroid[0]                                                      #+ Asteroid_vitesse_y * (i+1) + coord_y_Asteroid[i] 
 
         coord_x_Asteroid.append(Asteroid_position_x)
         coord_y_Asteroid.append(Asteroid_position_y)
@@ -282,13 +286,19 @@ def exit_solar_syst(coord_x, coord_y, anim):
         return anim.event_source.stop()
         
 
+def compteur(i):
+    plt.plot(300000, 9500000, 'ks', ms = 11)
+    plt.text(300000, 9500000, str(i), color = 'red', fontsize = 10)
+
 #coord_x_Asteroid, coord_y_Asteroid = coord_Asteroid(coord_x_Asteroid, coord_y_Asteroid, 60000, V0, theta)
 
 #----fonctions de mise en mouvement des astres-----#
 
 
 interval_time = 1.0
-boom = False
+
+global anim_running
+anim_running = True
 
 def run_animation():
 
@@ -305,6 +315,7 @@ def run_animation():
 
     def anim_astre(i):
         nonlocal anim_running
+        #compteur(i)
         Asteroid_crash_test_plt.set_data(Asteroid_crash_test.coord_x[i], Asteroid_crash_test.coord_y[i])
         Asteroid_line.set_data(Asteroid_crash_test.coord_x[:i], Asteroid_crash_test.coord_y[:i])
         for j in range(len(list_plot_planete)):
@@ -323,6 +334,9 @@ def run_animation():
 run_animation()
 
 
+
+#----différentes informations à afficher sous forme de texte sur notre animation-----#
+
 if asteroide_x_init < 5000000:
     plt.text(6650000, 1200000, "valeurs initiales de la simulation: ", color = 'red', fontsize = 10, weight = "bold")
     plt.text(6700000, 1000000, "-coordonnée x de notre l'Asteroid: " + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 10)
@@ -332,13 +346,15 @@ if asteroide_x_init < 5000000:
     plt.text(6700000, 200000, "-nombre de jours avant lancement: " + str(Asteroid_crash_test.t), color = 'red', fontsize = 10)
 else:
     plt.text(100000, 1200000, "valeurs initiales de la simulation: ", color = 'red', fontsize = 10, weight = "bold")
-    plt.text(100000, 1000000, "-coordonnée initiale x de notre l'Asteroid: " + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 10)
-    plt.text(100000, 800000, "-coordonnée initiale y de notre l'Asteroid: " + str(Asteroid_crash_test.coord_y_init), color = 'red', fontsize = 10)
-    plt.text(100000, 600000, "-vitesse intiale en x: " + str(Asteroid_crash_test.vitesse_x), color = 'red', fontsize = 10)
-    plt.text(100000, 400000, "-vitesse intiale en y: " + str(Asteroid_crash_test.vitesse_y), color = 'red', fontsize = 10)
-    plt.text(100000, 200000, "-nombre de jours avant lancement: " + str(Asteroid_crash_test.t), color = 'red', fontsize = 10)
+    plt.text(99500, 1000000, "-coordonnée initiale x de notre l'Asteroid: " + str(Asteroid_crash_test.coord_x_init), color = 'red', fontsize = 10)
+    plt.text(99500, 800000, "-coordonnée initiale y de notre l'Asteroid: " + str(Asteroid_crash_test.coord_y_init), color = 'red', fontsize = 10)
+    plt.text(99500, 600000, "-vitesse intiale en x: " + str(Asteroid_crash_test.vitesse_x), color = 'red', fontsize = 10)
+    plt.text(99500, 400000, "-vitesse intiale en y: " + str(Asteroid_crash_test.vitesse_y), color = 'red', fontsize = 10)
+    plt.text(99500, 200000, "-nombre de jours avant lancement: " + str(Asteroid_crash_test.t), color = 'red', fontsize = 10)
 
 
+
+#-----caractéristiques de notre figure-----#
 
 plt.title("Asteroid trajectory simulation")
 plt.grid(alpha = 0.2)
@@ -352,15 +368,12 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=
 
 # plot du repère x, y
 
-plt.arrow(9000000, 9000000, 450000, 0, head_width = 150000, head_length = 150000, fc = 'k', ec = 'r' )      #flèche de l'axe des x
+plt.arrow(9000000, 9000000, 440000, 0, head_width = 150000, head_length = 150000, fc = 'k', ec = 'r' )      #flèche de l'axe des x
 plt.arrow(9000000, 9000000, 0, 500000, head_width = 100000, head_length = 200000, fc = 'k', ec = 'r' )      #flèche de l'axe des y
 plt.text(9500000, 8800000, "x", color = 'red', fontsize = 6)
 plt.text(8850000, 9600000, "y", color = 'red', fontsize = 6)
 
 # affichage du graphique
-
-
-
 
 plt.show()
 
