@@ -112,7 +112,9 @@ void fichierCSV ( char* filename, double * coor_x_planete, double * coor_y_plane
 			fprintf(file, "\n");
 		}
 	}
-
+	free(coor_x_planete);
+    free(coor_y_planete);
+    
     fclose(file);
 }
 
@@ -402,7 +404,10 @@ int main(int argc, char * argv[]) {
     }
     
 	fichierCSV_Asteroid("Asteroide.csv", Asteroide, coord_x_Asteroid, coord_y_Asteroid,  60000); 
-     	
+    
+    free(coord_x_Asteroid);
+    free(coord_y_Asteroid);
+    	
 	return 0; 
 
 }
